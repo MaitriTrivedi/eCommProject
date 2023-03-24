@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/',views.loginPage,name='login'),# user
     path('login-user/',views.loginUser,name='login user'),# user
     # path('adminlogin/',views.adminlogin,name='adminlogin'),# admin
-    path('admin-login-validate/',views.login,name='adminlogin'),# admin
+    # path('admin-login-validate/',views.login,name='adminlogin'),# admin
 
     #logout :
     path('logout/',views.logoutPage,name='logout'),

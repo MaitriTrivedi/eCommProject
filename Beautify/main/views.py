@@ -1,13 +1,16 @@
 import math
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views import View   
-from .models import Products,UserData, Cart, CartItems,Coupon,Order,OrderItems,Sellers
-from .forms import UserForm, ProductForm, SellerForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+
+from .models import Products,UserData, Cart, CartItems,Coupon,Order,OrderItems,Sellers
+from .forms import UserForm, ProductForm, SellerForm
+
 
 session = {'username':''}
 
@@ -38,12 +41,11 @@ def loginUser(request):
         return redirect("/login/")
 
 # REGISTER : 
-
 # USER :
-
 def register(request):
     form = UserForm()
     return render (request=request, template_name="main/register.html", context={"register_form":form})
+
 
 def registerUser(request):
     if request.method=='POST':
@@ -76,10 +78,12 @@ def registerUser(request):
     else:
         return redirect("/register/")
 
+
 # ADMIN :
 def registerAdminForm(request):
     form = SellerForm()
     return render (request=request, template_name="main/adminregister.html", context={"register_form":form})
+
 
 def adminregister(request):
     if request.method=='POST':
@@ -115,16 +119,16 @@ def adminregister(request):
     else:
         return redirect("/registerAdminForm/")
 
-# LOGOUT :
 
+# LOGOUT :
 @login_required
 def logoutPage(request):
     # request.session['username']=''
     logout(request)
     return render(request,'main/login.html')
 
-# CART :
 
+# CART :
 @login_required
 def updatecart(request):
     # quantity=request.POST.get('quantity')
@@ -138,7 +142,6 @@ def updatecart(request):
         messages.error(request,'No Items in Cart')
         return render(request,'main/cart.html',context)
     subtotal=0
-
     temp = Products.objects.filter(product_id=id).first()
     if remove=='remove':
         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
@@ -157,8 +160,8 @@ def updatecart(request):
         cart_objects.quantity=cart_objects.quantity+1
         cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
         cart_objects.save()
-    
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 @login_required
 def cart(request):
@@ -167,29 +170,27 @@ def cart(request):
     remove = request.POST.get('remove')
     context = {'cart':[],'cart_items':[]}
     context['cart']=Cart.objects.filter(is_paid=False,username=request.user).first()
-    
     try :
         context['cart_items']=CartItems.objects.filter(cart=context['cart'])
     except IndexError:
         messages.error(request,'No Items in Cart')
         return render(request,'main/order.html',context)
-    
     totalQuantity=0
     totalCost=0
     for i in range(len(context['cart_items'])):
         totalCost=totalCost+(context['cart_items'][i].quantity*context['cart_items'][i].products.price)
         totalQuantity=totalQuantity+(context['cart_items'][i].quantity)
-
-    
     context['subtotal']=totalCost
     context['tax']=totalCost*(0.18)
     context['grandtotal']=totalCost+100+context['tax']
     return render(request,'main/cart.html',context)
 
+
 class Category(View):
     def get(self,request,val):
         product = Products.objects.filter(category=val)
         return render(request,'main/category.html',locals())
+
 
 @login_required
 def checkout(request):
@@ -207,6 +208,7 @@ def checkout(request):
                 if int(float( context['grandtotal'] )) > ( coupon_obj.min_amount ) and coupon_obj.is_expired==False:
                     context['grandtotal']=int(float(context['grandtotal']))-discount_price
     return render(request,'main/checkout.html',context)
+
 
 @login_required
 def pay(request):
@@ -226,6 +228,8 @@ def pay(request):
         context['shipping']=request.POST.get('shipping')
     return render(request,'main/pay.html',context)
 
+
+@login_required
 def order(request):
     context={'orders':[]}
     context['grandtotal']=[]
@@ -245,6 +249,7 @@ def order(request):
             context['orders'].append(t)
     return render(request,'main/order.html',context)
 
+
 @login_required
 def addToCart(request,product_id):
     product = Products.objects.get(product_id=product_id)
@@ -263,6 +268,7 @@ def addToCart(request,product_id):
         cart_items.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 @login_required
 def update_cart(request, product_id):
     quantity = int(request.POST.get('quantity'))
@@ -274,11 +280,13 @@ def update_cart(request, product_id):
     request.session['cart'] = cart
     return redirect('cart')
 
+
 # To view products :
 @login_required
 def viewProduct(request):
     products = Products.objects.all()
     return render(request,'main/viewProduct.html',{'products':products})
+
 
 # To add products by the seller
 @login_required
@@ -287,6 +295,7 @@ def addProduct(request):
     context={'seller':request.user}
     form = ProductForm()
     return render (request=request, template_name="main/addProduct.html", context={"product_form":form,'seller':request.user})
+
 
 @login_required
 def addProductToDB(request):
@@ -304,8 +313,8 @@ def addProductToDB(request):
     else:
         return redirect('/adminpage/')
 
-# To remove product :
 
+# To remove product :
 @login_required
 def removeProduct(request):
     if request.method=='POST':
@@ -318,6 +327,7 @@ def removeProduct(request):
             messages.warning('Productwith product ID {} is not valid...'.format(productID))
     return render (request=request, template_name="main/removeProduct.html")
 
+
 def removeCartProduct(request):
     if request.method=='POST':
         productID = request.POST.get('productID')
@@ -328,6 +338,7 @@ def removeCartProduct(request):
         except ValueError:
             messages.warning('Productwith product ID {} is not valid...'.format(productID))
     return render (request=request, template_name="main/removeProduct.html")
+
 
 # To see user's profile :
 @login_required
@@ -342,11 +353,13 @@ def myprofile(request,username):
         context['profile2']=profile2
     return render (request=request, template_name="main/myprofile.html",context=context)
 
+
 # Home page of admin :
 @login_required
 def adminpage(request):
     session['username']=request.user
     return render(request,'main/adminpage.html')
+
 
 # Home page of User :
 @login_required
@@ -357,13 +370,16 @@ def index(request):
     params={'no_of_slides':nSlides, 'range':range(1,nSlides), 'products': products,'session':session}
     return render(request,'main/index.html',params)
 
+
 # About page of the site :
 def about(request):
     return render(request,'main/about.html')
 
+
 # Contact page of the site :
 def contact(request):
     return render(request,'main/contact.html')
+
 
 # update product by seller :
 @login_required
@@ -390,8 +406,6 @@ def updateProduct(request):
         messages.warning('Productwith product ID {} is not valid...'.format(productID))
     return render (request=request, template_name="main/updateproduct.html",context={'product':product})
 
-    
-        
 
 # Working on :
 # @login_required
