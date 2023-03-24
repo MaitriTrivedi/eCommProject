@@ -1,0 +1,2 @@
+# eCommProject
+# Based on Django
