@@ -1,0 +1,44 @@
+{%extends "main/base.html"%}
+{% block title%}Products{%endblock title%}
+
+{% block banner%}{%endblock%}
+{% block main-content%}
+      <!-- product section start -->,
+      {%for i in products%}
+      <div style='width:350px; margin: auto;' > 
+        <div class="product_box">
+
+           <h4 class="bursh_text">{{i.product_name}}</h4>
+           
+           <img src='{{MEDIA_ROOT}}/{{i.product_image}}' class="image_1">
+           <h1 class="lorem_text">{{i.description}} </h1 >
+           <h3 class="price_text" style="color:black;">Price Rs.{{i.price}}</h3>
+            <h3 class="price_text" style="color:black;">Price Rs.{{i.discounted_price}}</h3>
+            <h3 class="price_text" style="color:black;">Quantity : {{i.quantity}}</h3>
+            <div class="btn_main">
+                <div class="buy_bt">
+                   <ul>
+                      <li class="active"><a href="#">ADD TO CART</a></li>
+                       <form method='POST' action'/'> 
+                        {%csrf_token%} 
+                       <input hidden type='text' value={{i.product_id}}> 
+                       <li><input type='submit'value="Add To Cart"></li>
+            {% comment %} <a href="{% url 'add_to_cart' product_id={{i.product_id}} %}">Add to cart</a> {% endcomment %}
+
+                      <form> 
+                   </ul>
+                </div>
+                
+             </div>
+        </div>
+     </div>
+     
+      {%endfor%}
+
+     <!-- product section end -->
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block copyright%}{%endblock%}

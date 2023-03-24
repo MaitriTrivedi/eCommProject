@@ -1,0 +1,53 @@
+{%extends "main/base.html"%}
+
+{%block header%}
+<div class="about_section layout_padding">
+    <div class="container">
+       <div class="about_section_main">
+          <div class="row">
+             <div class="col-md-6">
+                <div class="about_taital_main">
+ 
+                   <form method='POST' action='/updateProduct/' enctype="multipart/form-data">
+                      {%csrf_token%}
+                      <lable style="font-weight: bold; font-size: 16px; padding-left: 40px;">Give Your Product's productID :</lable>
+                      <br><br>
+                       {% comment %} <input type='number' name='productID'></input> {% endcomment %}
+                       
+                       {% for i in product %}
+                       <div>
+                          <label class="required">{{i.label}}</label>
+                          {{i}}
+                       </div>
+                       {% endfor %}
+
+                      {% if messages %}
+                      {% for message in messages %}
+                      <h6 style="color:red;"><div class="alert alert-{{ message.tags }}">{{ message }}</div></h6>
+                      {% endfor %}
+                      {% endif %}
+                       <button onclick="return confirmDelete()">UPDATE PRODUCT</button>
+
+                      
+                   </form>
+                   <script>
+                      ele=document.getElementById('id_decription');
+                      ele.rows="3";
+                   </script>
+                </div>
+             </div>
+             <div class="col-md-6">
+                <div><img src="/static/images/about-img.png" class="image_3"></div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+{%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}{% endblock%}
+
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}

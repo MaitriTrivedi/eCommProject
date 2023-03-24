@@ -1,0 +1,66 @@
+{%extends "main/base.html"%}
+{% block style%}
+<style type="text/css"> 
+    #mydiv {
+        position:absolute;
+        top: 30%;
+        left: 50%;
+        width:30em;
+        height:18em;
+        margin-top: -9em; /*set to a negative number 1/2 of your height*/
+        margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        border: 1px solid #ccc;
+        background-color: #f3f3f3;
+    }
+    #checkout{
+        position:absolute;
+        top: 80%;
+        left: 65%;
+        margin-top: -9em; /*set to a negative number 1/2 of your height*/
+        margin-left: -15em; /*set to a negative number 1/2 of your width*/
+        border: 1px solid #ccc;
+        background-color: #f3f3f3;
+    }
+    </style>
+    {%endblock style%}
+{% block title%}Contact{%endblock title%}
+{%block header%}{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}
+<h1 style='text-align:center;'>Bill Summury</h1>
+<div id='mydiv'>
+<table>
+<div class="totals">
+    <div class="totals-item">
+      <input hidden name='subtotal' value={{subtotal}}></input>
+      <tr><td style='width:100px;'><label>Subtotal :</label></td><td><div class="totals-value" id="cart-subtotal" >{{subtotal}}</div></td></tr>
+     
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Tax (18%) :</label></td><td>
+        <input hidden name='tax' value={{tax}}></input>
+      <div class="totals-value" id="cart-tax" name='tax'>{{tax}}</div></td></tr>
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Shipping :</label></td><td>
+        <input hidden name='shipping' value=100></input>
+      <div class="totals-value" id="cart-shipping">100</div></td></tr>
+    </div>
+    <div class="totals-item totals-item-total">
+      <tr><td><label>Grand Total : </label></td><td>
+        <input hidden name='grandtotal' value={{grandtotal}}></input>
+      <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
+    </div>
+  </div>
+</table>
+</div>
+{% endblock%}
+{%block footer%}<form method='POST' action='{%url "pay"%}'>
+    {%csrf_token%}
+    <input hidden name='grandtotal' value={{grandtotal}}></input>
+    <button class="checkout" id='checkout'>Pay</button></form>{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

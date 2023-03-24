@@ -1,0 +1,47 @@
+{%extends "main/base.html"%}
+{% block title%}MyProfile{%endblock title%}
+
+{%block header%}
+{%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}
+{% comment %} <form method='POST' action'/'> 
+    {%csrf_token%} 
+   <input hidden type='text' name='username' value={{session.username}}> 
+</form> {% endcomment %}
+
+<div style='width: 350px; height: 350px; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0; border: 1px solid black;'>
+   <h6 class="customer_taital">My Profile</h6>
+   {%if profile%}
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Username :</label>
+   {{profile.username}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Email :</label>
+   {{profile.email}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Address :</label>
+   {{profile.address}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Contact :</label>
+   {{profile.contact}}
+   {%else%}
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Username :</label>
+   {{profile2.user}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Company Name :</label>
+   {{profile2.company_name}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Address :</label>
+   {{profile2.address}}
+   <br>
+   <label style="font-weight: bold; font-size: 16px; padding-left: 40px;">Contact :</label>
+   {{profile2.phone}}
+{%endif%}
+</div>
+{% endblock%}   
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

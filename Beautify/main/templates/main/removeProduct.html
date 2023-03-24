@@ -1,0 +1,51 @@
+{%extends "main/base.html"%}
+
+{%block header%}
+<script>
+   function confirmDelete() {
+       var result = confirm("Are you sure you want to delete this product?");
+       if (result) {
+           return true;
+       } else {
+           return false;
+       }
+   }
+   </script>
+<div class="about_section layout_padding">
+   <div class="container">
+      <div class="about_section_main">
+         <div class="row">
+            <div class="col-md-6">
+               <div class="about_taital_main">
+
+                  <form method='POST' action='/removeProduct/'>
+                     {%csrf_token%}
+                     <lable style="font-weight: bold; font-size: 16px; padding-left: 40px;">Give Your Product's productID :</lable>
+                    <br><br>
+                     <input type='number' name='productID'></input>
+                     
+                    {% if messages %}
+                    {% for message in messages %}
+                    <h6 style="color:red;"><div class="alert alert-{{ message.tags }}">{{ message }}</div></h6>
+                    {% endfor %}
+                    {% endif %}
+                     <button onclick="return confirmDelete()">REMOVE PRODUCT</button>
+                  </form>
+                  
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div><img src="/static/images/about-img.png" class="image_3"></div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}{% endblock%}
+
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}

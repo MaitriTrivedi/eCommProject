@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Beautify |{% block title%}{%endblock title%}</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="/static/css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="/static/images/fevicon.png" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.min.css">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+      <!-- owl stylesheets --> 
+      <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+      <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+      <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+   {%block style%}
+   <style>
+    .link-item{
+        color:black;
+    }
+    
+/* Dropdown Button */
+.dropbtn {
+  background-color: #eccfd5;
+  color: white;
+   padding: 0px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #ffffff;}
+.col-md-3 {
+            display: inline-block;
+            margin-left: -4px;
+        }
+
+        .col-md-3 {
+            width: 100%;
+            height: auto;
+        }
+
+
+
+        body .no-padding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .carousel-control-prev-icon {
+            background: black no-repeat center center;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
+        }
+
+        .carousel-control-next-icon {
+            background: black no-repeat center center;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
+
+        }
+        body .carousel-indicators{
+        bottom:0;
+        }
+
+        .carousel-indicators .active{
+        background-color: blue;
+        }
+        .col-md-3 img {
+            width: 255px;
+            height: 355px;
+        }
+        .badge{
+         padding-left: 9px;
+         padding-right: 9px;
+         -webkit-boarder-radius:9px;
+         -moz-border-radius: 9px;
+         border-radius: 9px;
+        }
+        .cart-count {
+         position: absolute;
+         top: 20px;
+         right: 20px;
+         background-color: rgb(57, 57, 57);
+         color: white;
+         padding: 2px 5px;
+         border-radius: 60%;
+         font-size: 12px;
+         }
+         .Cart-Container{
+ width: 70%;
+ height: 85%;
+ background-color: #ffffff;
+ border-radius: 20px;
+ box-shadow: 0px 25px 40px #1687d933;
+}
+.body{
+ margin: 0;
+ padding: 0;
+ background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
+ height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+   </style>
+   {%endblock%}
+    </head>
+   <body>
+    {%block header%}
+      <!-- header section start -->
+      <div class="header_section">
+         <div class="container-fluid">
+            <nav class="navbar navbar-light bg-light justify-content-between">
+
+               <div id="mySidenav" class="sidenav">
+                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                  <a href="{%url 'index'%}">Home</a>
+                  <a href="{%url 'viewProduct'%}">Products</a>
+                  <a href="{%url 'about'%}">About</a>
+                  <a href="{%url 'contact'%}">Contact</a>
+               </div>
+               <span class="toggle_icon" onclick="openNav()"><img src="/static/images/toggle-icon.png"></span>
+               
+               <a class="logo" href="{%url 'index'%}"><img src="/static/images/logo.png"></a></a>
+               <div><form method='POST' action='/viewProduct/'>
+                  {%csrf_token%}
+                  <button>VIEW PRODUCTS</button>
+               </form></div>
+               <form class="form-inline ">
+                  <div class="login_text">
+                     <ul>
+                        <div class="dropdown">
+                            <li class="dropbtn"><a style="color:black;">Category</a>
+                            <div class="dropdown-content">
+                              <a href="{%url 'category' 'MAKEUP' %}">Make Up</a>
+                              <a href="{%url 'category' 'HAIR' %}">Face</a>
+                              <a href="{%url 'category' 'LIPS' %}">Hair</a>
+                              <a href="{%url 'category' 'EYE' %}">Lips</a>
+                              <a href="{%url 'category' 'NAIL' %}">Eye</a>
+                              <a href="{%url 'category' 'FOOT' %}">Nail</a>
+                              <a href="{%url 'category' 'FACE' %}">Foot</a>
+                            
+                            </div>
+                          </div>
+                        </li>
+                       <li>
+                        {% comment %} action="action_page.php" {% endcomment %}
+                            <form class="example" action="search" method='GET'>
+                                <input type="text" placeholder="Search.." name="searchText">
+                              </form></li>
+                            <li><button><img src="/static/images/search-icon.png"></button></li>
+                  <!-- </ul> -->
+                  </div>
+                  </form>
+                  <li>
+                  <form class="form-inline">
+                  <div class="login_text">
+                     <!-- <ul> -->
+                        <!-- <li><a href="#"><img src="/static/images/user-icon.png"></a></li> -->
+                        {% if session.username != '' %}
+                        <div class="dropdown">
+                            <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
+                            <div class="dropdown-content">
+                              {% if session.username %}
+                              <a href="{% url 'myprofile' session.username %}">Profile</a>{%endif%}
+                              <a href="#">Orders</a>
+                              <a href="#">Logout</a>
+                            </div>
+                          </div>
+                          </li>
+                          
+                          {%endif%}
+                          {% if session.username %}
+                          <i class="'fa" style="font-size: 24px;">&#xf07a;</i>
+                          <li><a href="#"><img src="/static/images/bag-icon.png"></a></li>   
+                          {%endif%}
+
+                          
+
+                        {% if session.username == '' %}
+                         <li> <div class="login_text"></div></li>
+                          <li class="link-item" id='a'><a href="http://127.0.0.1:8000/login/" style="color:black;">Log In</a></li>
+                          <li class="link-item" id='a'><a href="{% url 'register' %}" style="color:black;">Sign Up</a></li>
+                        {% else %}
+                        {%if session.username == '' %}
+                        Hi {{ session.username }}!
+                        <p><a href="{% url 'logout' %}">Log Out</a></p>
+                        {% else %}{% endif %}
+                        <!-- <li class="link-item" id='a'><a href="#" style="color:black;">{{ session.username }}</a></li> -->
+                        <li class="link-item" id='a'><a href="http://127.0.0.1:8000/login/" style="color:black;">Log Out</a></li>   
+                        {% endif %}
+                        </div>
+                     </ul>
+                  </div>
+                  </form>
+               </nav>
+         </div>
+      </div>
+      {%endblock%}
+      <!-- header section end -->
+      <!-- banner section start -->
+      {% block banner%}
+      <div class="banner_section layout_padding">
+         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+               <div class="carousel-item active">
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <h1 class="banner_taital">Beauty <br>Kit</h1>
+                           <p class="banner_text">Ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+                           <div class="read_bt"><a href="#">Buy Now</a></div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <h1 class="banner_taital">Beauty <br>Kit</h1>
+                           <p class="banner_text">Ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+                           <div class="read_bt"><a href="#">Buy Now</a></div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <h1 class="banner_taital">Beauty <br>Kit</h1>
+                           <p class="banner_text">Ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+                           <div class="read_bt"><a href="#">Buy Now</a></div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="container">
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <h1 class="banner_taital">Beauty <br>Kit</h1>
+                           <p class="banner_text">Ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+                           <div class="read_bt"><a href="#">Buy Now</a></div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {%endblock%}
+      <!-- banner section end -->
+    {% block main-content%}{% endblock%}
+    {% block about%}
+      <!-- about section start -->
+      <div class="about_section layout_padding">
+         <div class="container">
+            <div class="about_section_main">
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="about_taital_main">
+                        <h1 class="about_taital">About Our beauty sotore</h1>
+                        <p class="about_text">labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequatlabore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequatlabore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+                        <div class="readmore_bt"><a href="#">Read More</a></div>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div><img src="/static/images/about-img.png" class="image_3"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endblock%}
+      <!-- about section end -->
+      <!-- customer section start -->
+      {% block customer%}
+      <div class="customer_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h1 class="customer_taital">What says customers</h1>
+               </div>
+            </div>
+            <div id="main_slider" class="carousel slide" data-ride="carousel">
+               <div class="carousel-inner">
+                  <div class="carousel-item active">
+                     <div class="client_section_2">
+                        <div class="client_main">
+                           <div class="client_left">
+                              <div class="client_img"><img src="/static/images/client-img.png"></div>
+                           </div>
+                           <div class="client_right">
+                              <h3 class="name_text">Jonyro</h3>
+                              <p class="dolor_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  eu </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="carousel-item">
+                     <div class="client_section_2">
+                        <div class="client_main">
+                           <div class="client_left">
+                              <div class="client_img"><img src="/static/images/client-img.png"></div>
+                           </div>
+                           <div class="client_right">
+                              <h3 class="name_text">Jonyro</h3>
+                              <p class="dolor_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  eu </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="carousel-item">
+                     <div class="client_section_2">
+                        <div class="client_main">
+                           <div class="client_left">
+                              <div class="client_img"><img src="/static/images/client-img.png"></div>
+                           </div>
+                           <div class="client_right">
+                              <h3 class="name_text">Jonyro</h3>
+                              <p class="dolor_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  eu </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+               <i class="fa fa-angle-left"></i>
+               </a>
+               <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+               <i class="fa fa-angle-right"></i>
+               </a>
+            </div>
+         </div>
+      </div>
+      {% endblock%}
+      <!-- customer section end -->
+      <!-- contact section start -->
+      {%block contact%}
+      <div class="contact_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-6">
+                  <h1 class="contact_taital">Get In Touch</h1>
+                  <p class="contact_text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  eu </p>
+               </div>
+               <div class="col-md-6">
+                  <div class="contact_main">
+                     <div class="contact_bt"><a href="#">Contact Form</a></div>
+                     <div class="newletter_bt"><a href="#">Newletter</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="map_main">
+            <div class="map-responsive">
+               <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&amp;q=Eiffel+Tower+Paris+France" width="600" height="400" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe>
+            </div>
+         </div>
+      </div>
+      {%endblock%}
+      <!-- contact section end -->
+      <!-- footer section start -->
+      {%block footer%}
+      <div class="footer_section layout_padding">
+         <div class="container">
+            <div class="footer_logo"><a href="index.html"><img src="/static/images/footer-logo.png"></a></div>
+            <div class="contact_section_2">
+               <div class="row">
+                  <div class="col-sm-4">
+                     <h3 class="address_text">Contact Us</h3>
+                     <div class="address_bt">
+                        <ul>
+                           <li>
+                              <a href="#">
+                              <i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left10">Address : Loram Ipusm</span>
+                              </a>
+                           </li>
+                           <li>
+                              <a href="#">
+                              <i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left10">Call : +01 1234567890</span>
+                              </a>
+                           </li>
+                           <li>
+                              <a href="#">
+                              <i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left10">Email : demo@gmail.com</span>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-sm-4">
+                     <div class="footer_logo_1"><a href="index.html"><img src="/static/images/footer-logo.png"></a></div>
+                     <p class="dummy_text">commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non</p>
+                  </div>
+                  <div class="col-sm-4">
+                     <div class="main">
+                        <h3 class="address_text">Best Products</h3>
+                        <p class="ipsum_text">dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="social_icon">
+               <ul>
+                  <li>
+                     <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                     <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                     <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      {%endblock%}
+      <!-- footer section end -->
+      {%block copyright%}
+      <!-- copyright section start -->
+      <div class="copyright_section">
+         <div class="container">
+            <p class="copyright_text">2020 All Rights Reserved. Design by <a href="https://html.design">Free html  Templates</a></p>
+         </div>
+      </div>
+      {%endblock%}
+      <!-- copyright section end -->
+      <!-- Javascript files-->
+      <script src="/static/js/jquery.min.js"></script>
+      <script src="/static/js/popper.min.js"></script>
+      <script src="/static/js/bootstrap.bundle.min.js"></script>
+      <script src="/static/js/jquery-3.0.0.min.js"></script>
+      <script src="/static/js/plugin.js"></script>
+      <!-- sidebar -->
+      <script src="/satic/js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="/static/js/custom.js"></script>
+      <!-- javascript --> 
+      <!-- <script src="/static/js/owl.carousel.js"></script> -->
+      <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>  
+      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+      <script>
+         function openNav() {
+           document.getElementById("mySidenav").style.width = "100%";
+         }
+         
+         function closeNav() {
+           document.getElementById("mySidenav").style.width = "0";
+         }
+      </script> 
+      
+   </body>
+</html>
