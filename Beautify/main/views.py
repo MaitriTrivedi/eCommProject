@@ -287,6 +287,12 @@ def viewProduct(request):
     products = Products.objects.all()
     return render(request,'main/viewProduct.html',{'products':products})
 
+# To view product in detail :
+@login_required
+def view(request,id):
+    product = Products.objects.get(product_id=id)
+    return render(request,'main/view.html',{'product':product})
+
 
 # To add products by the seller
 @login_required

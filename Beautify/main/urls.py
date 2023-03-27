@@ -25,6 +25,7 @@ urlpatterns = [
 
     # user:
     path('cart/',views.cart,name='cart'),
+    path('view/<id>',views.view,name='view'),
     path('updatecart/',views.updatecart,name='updatecart'),
     path('checkout/',views.checkout,name='checkout'),
     path('pay/',views.pay,name='pay'),

@@ -272,6 +272,7 @@
         <tr>
         <td> <label class="product-image">Image</label></td> 
         <td> <label class="product-details">Product</label></td> 
+        <td> <label class="product-details">Product Details</label></td> 
         <td> <label class="product-price">Price</label></td> 
         <td> <label class="product-quantity">Quantity</label></td> 
         <td> <label class="product-removal">Remove</label></td>
@@ -289,8 +290,10 @@
           <img style='width:224px; height:224px;' src='{{MEDIA_ROOT}}/{{i.products.product_image}}'>
         </div></td>
 
-        
-
+        <td><div class="product-details">
+          <div class="product-title">{{i.products.product_name}}</div>
+        </div></td>
+       
         <td><div class="product-details">
           <div class="product-title">{{i.products.description}}</div>
         </div></td>
