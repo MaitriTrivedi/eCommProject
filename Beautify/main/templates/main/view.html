@@ -123,8 +123,8 @@
                 <tr><td><h3 class="product-title" style="width:500px; float: left;">{{product.product_name}}</h3></tr></td>
                 <tr><td> <h4 class="product-price" style="width:500px;">Rs.{{product.price}}</h4></tr></td>
                 {%if session.username != '' %}
-            <tr><td><a href="{% url 'addToCart' product.product_id %}" class="btn btn-primary">Add To Cart</a></tr></td>
-            {%endif%} 
+                <tr><td><a href="{% url 'addToCart' product.product_id %}" class="btn btn-primary">Add To Cart</a></tr></td>
+                {%endif%} 
             </div>
             
         </div>
