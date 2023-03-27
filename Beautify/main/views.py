@@ -33,7 +33,7 @@ def loginUser(request):
             else:
                 login(request, user)
                 session['username']=uname
-                return redirect("/home/")
+                return redirect("/")
         else:
             messages.error(request,"Username or Password Not Valid.")
             return redirect("/login/")
@@ -278,7 +278,8 @@ def update_cart(request, product_id):
     else:
         cart.pop(product_id, None)
     request.session['cart'] = cart
-    return redirect('cart')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return redirect('cart')
 
 
 # To view products :

@@ -26,13 +26,13 @@
                         <div class="dropdown">
                             <li class="dropbtn"><a style="color:black;">Category</a>
                             <div class="dropdown-content">
-                              <a href="{%url 'category' 'MAKEUP' %}">Make Up</a>
-                              <a href="{%url 'category' 'HAIR' %}">Face</a>
-                              <a href="{%url 'category' 'LIPS' %}">Hair</a>
-                              <a href="{%url 'category' 'EYE' %}">Lips</a>
-                              <a href="{%url 'category' 'NAIL' %}">Eye</a>
-                              <a href="{%url 'category' 'FOOT' %}">Nail</a>
-                              <a href="{%url 'category' 'FACE' %}">Foot</a>
+                              <a href="{%url 'category' 'MAKEUP' %}" style="color:black;">Make Up</a>
+                              <a href="{%url 'category' 'HAIR' %}" style="color:black;">Face</a>
+                              <a href="{%url 'category' 'LIPS' %}" style="color:black;">Hair</a>
+                              <a href="{%url 'category' 'EYE' %}" style="color:black;">Lips</a>
+                              <a href="{%url 'category' 'NAIL' %}" style="color:black;">Eye</a>
+                              <a href="{%url 'category' 'FOOT' %}" style="color:black;">Nail</a>
+                              <a href="{%url 'category' 'FACE' %}" style="color:black;">Foot</a>
                             
                             </div>
                           </div>
@@ -56,9 +56,9 @@
                             <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
                             <div class="dropdown-content">
                               {% if session.username %}
-                              <a href="{% url 'myprofile' session.username %}">Profile</a>{%endif%}
-                              <a href="{%url 'order'%}">Orders</a>
-                              <a href="{%url 'logout'%}">Logout</a>
+                              <a href="{% url 'myprofile' session.username %}" style="color:black;">Profile</a>{%endif%}
+                              <a href="{%url 'order'%}" style="color:black;">Orders</a>
+                              <a href="{%url 'logout'%}" style="color:black;">Logout</a>
                             </div>
                           </div>
                           </li>

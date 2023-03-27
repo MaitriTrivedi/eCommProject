@@ -41,7 +41,7 @@ urlpatterns = [
     path('updateProduct/',views.updateProduct,name='updateProduct'),
 
     # working :
-    path('home/',views.index,name='index'),
+    path('',views.index,name='index'),
     path('register/',views.register,name='register'),
     path('registerAdminForm/',views.registerAdminForm,name='registerAdminForm'),
     path('register-user/',views.registerUser,name='registerUser'),

@@ -24,7 +24,7 @@ class Sellers(models.Model):
 
 class Products(models.Model):
     seller=models.ForeignKey(Sellers,default=1,on_delete=models.CASCADE)
-    product_id = models.IntegerField(primary_key=True)
+    product_id = models.AutoField(primary_key=True)
     product_name=models.CharField(max_length=100,null=True)
     price = models.FloatField(null=False)
     # discounted_price=models.FloatField(null=False)
