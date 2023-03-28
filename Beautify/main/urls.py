@@ -16,6 +16,7 @@ urlpatterns = [
 
     #view products : 
     path('viewProduct/',views.viewProduct,name='viewProduct'),
+    path('viewMyProduct/',views.viewMyProduct,name='viewMyProduct'),
     path('category/<slug:val>',views.Category.as_view(),name='category'), # viewproducts categorywise
 
     #extra pages:
@@ -27,6 +28,7 @@ urlpatterns = [
     path('cart/',views.cart,name='cart'),
     path('view/<id>',views.view,name='view'),
     path('updatecart/',views.updatecart,name='updatecart'),
+    path('updateEach/<id>',views.updateEach,name='updateEach'),
     path('checkout/',views.checkout,name='checkout'),
     path('pay/',views.pay,name='pay'),
     path('order/',views.order,name='order'),
@@ -37,8 +39,8 @@ urlpatterns = [
     path('adminpage/',views.adminpage,name='adminpage'), # admin Home page
     path('add-product-to-db/',views.addProductToDB,name='addItemToDB'),
     path('addProduct/',views.addProduct,name='addProduct'),
-    path('removeProduct/',views.removeProduct,name='removeProduct'),
-    path('updateProduct/',views.updateProduct,name='updateProduct'),
+    # path('removeProduct/',views.removeProduct,name='removeProduct'),
+    path('updateMyProduct/',views.updateMyProduct,name='updateMyProduct'),
 
     # working :
     path('',views.index,name='index'),

@@ -1,7 +1,8 @@
 {%extends "main/base.html"%}
 
-{%block header%}
-<script>
+{%block header%}{%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}<script>
    function confirmDelete() {
        var result = confirm("Are you sure you want to delete this product?");
        if (result) {
@@ -20,30 +21,37 @@
 
                   <form method='POST' action='/removeProduct/'>
                      {%csrf_token%}
-                     <lable style="font-weight: bold; font-size: 16px; padding-left: 40px;">Give Your Product's productID :</lable>
-                    <br><br>
-                     <input type='number' name='productID'></input>
+                     <section class="section-products">
+                            <div class="row">
+                                <!-- Single Product -->
+                                <table>
+                                {%for i in products %}
+                                <tr>
+                                              <td style='width:5000px;'><img style='width:1000px;height:200px;' src='{{MEDIA_ROOT}}/{{i.product_image}}'  alt="..."></td>
+                                              <h5 class="card-title"></h5>
+                                      <td><p class="card-text">{{i.description}}</p></td>
+                                      <td><h3 class="price_text" style="color:black;">Price Rs.</h3></td>
+                                        
+                                        </div>
+                                        <div class="part-2">
+                                         <td><h3 class="price_text" style="color:black;">{{i.quantity}} avialable</h3></td>
+                                            <td><h3 class="product-title">{{i.product_name}}</h3></td>
+                                            <td><h3 hidden class="product-title" value='{{i.product_id}}' name="'id"></h3></td>
+                                            <td><h4 class="product-price">Rs.{{i.price}}</h4></td>
+                                      
+                                        {%if session.username != '' %}
+                                       <td><button onclick="return confirmDelete()" style="width:70px;height:20px;">REMOVE PRODUCT</button></td>
+                                        {%endif%} 
+                                   
+                                </tr>
+                      {%endfor%}
+                              </table>
+                      
                      
-                    {% if messages %}
-                    {% for message in messages %}
-                    <h6 style="color:red;"><div class="alert alert-{{ message.tags }}">{{ message }}</div></h6>
-                    {% endfor %}
-                    {% endif %}
-                     <button onclick="return confirmDelete()">REMOVE PRODUCT</button>
+                      </section>
                   </form>
-                  
-               </div>
-            </div>
-            <div class="col-md-6">
-               <div><img src="/static/images/about-img.png" class="image_3"></div>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
-{%endblock%}
-{% block banner%}{%endblock%}
-{% block main-content%}{% endblock%}
+
+</div>{% endblock%}
 
 {%block footer%}{% endblock%}
 {%block contact%}{% endblock%}

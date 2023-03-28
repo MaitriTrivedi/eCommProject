@@ -285,8 +285,19 @@ def update_cart(request, product_id):
 # To view products :
 @login_required
 def viewProduct(request):
-    products = Products.objects.all()
-    return render(request,'main/viewProduct.html',{'products':products})
+    if request.POST.get('value')=='admin':
+        # import pdb; pdb.set_trace();
+        temp1 =User.objects.get(username=request.session['username'])
+        print(temp1)
+        temp2=Sellers.objects.get(user=temp1)
+        print(temp2)
+        products = Products.objects.filter(seller=temp2)
+        return render(request,'main/removeProduct.html',{'products':products})
+    else:
+        products = Products.objects.all()
+        return render(request,'main/viewProduct.html',{'products':products})
+    
+
 
 # To view product in detail :
 @login_required
@@ -321,19 +332,93 @@ def addProductToDB(request):
         return redirect('/adminpage/')
 
 
-# To remove product :
+# To view products for seller :
 @login_required
-def removeProduct(request):
+def viewMyProduct(request):
+    context={}
+    # if request.POST.get('value')=='admin':
+    temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
+    context['products'] = Products.objects.filter(seller=temp1)
+    print(context['products'])
+    context['admin']=request.user
+    print(context['admin'])
+    return render(request,'main/viewMyProduct.html',context)
+    
+# To update my products :
+@login_required
+def updateMyProduct(request):
+    context={}
+    if request.method=='POST':
+        removeOrUpdate=request.POST.get('removeOrUpdate')
+        id=request.POST.get('productID')
+        admin=request.POST.get('admin')
+        print(removeOrUpdate)
+        print(id)
+        context['admin']=request.user
+        context['id']=id
+        if removeOrUpdate=='remove':
+            product=Products.objects.get(product_id=id)
+            product.delete()
+        if removeOrUpdate=='update':
+            # url='/updateEach/'+str(context['id'])
+            p = Products.objects.get(product_id=id)
+            product = ProductForm(instance=p)
+            context['product']=product
+            context['id']=id
+            return render(request,'main/updateproduct.html',context)
+            # product=Products.objects.get(product_id=id)
+            # return render(request,'main/updateproduct.html',context)
+    
+    return redirect('/viewMyProduct/',context)
+
+def updateEach(request,id):
+    try:
+        p = Products.objects.get(product_id=int(id))
+        product = ProductForm(request.POST or None, instance=p)
+        if request.method == 'POST' and product.is_valid():
+            p.product_name = product.cleaned_data['product_name']
+            p.price = product.cleaned_data['price']
+            p.description = product.cleaned_data['description']
+            p.category = product.cleaned_data['category']
+            p.quantity = product.cleaned_data['quantity']
+            p.product_image = product.cleaned_data['product_image']
+            p.save()
+            return redirect('/viewMyProduct/')
+        else:
+            messages.error(request,'You are not authorised for this product')
+            return redirect('/viewMyProduct/')
+    except ValueError:
+        messages.warning('Productwith product ID is not valid...')
+    return render (request=request, template_name="main/updateproduct.html",context={'product':product})
+
+
+# update product by seller :
+@login_required
+def updateProduct(request):
+    print('-------')
     if request.method=='POST':
         productID = request.POST.get('productID')
-        try :
-            p = Products.objects.filter(product_id=productID)
-            p.delete()
-            messages.warning(request, 'Product deleted successfully.')
-        except ValueError:
-            messages.warning('Productwith product ID {} is not valid...'.format(productID))
-    return render (request=request, template_name="main/removeProduct.html")
-
+        print('-------')
+        print(productID)
+    try :
+        # import pdb; pdb.set_trace()
+        p = Products.objects.filter(product_id=productID)
+        p.delete()
+        product=ProductForm(request.POST,request.FILES)
+        if product.is_valid():
+            temp=product.save(commit=False)
+            product.product_id=productID
+            seller=Sellers.objects.filter(user=request.user).first()
+            if p.seller==seller:
+                product.seller=seller
+                product.save()
+                return redirect('/viewProduct/')
+            else:
+                messages.error('You are not authorised for this product')
+                return redirect('/updateproduct/')
+    except ValueError:
+        messages.warning('Productwith product ID {} is not valid...'.format(productID))
+    return render (request=request, template_name="main/updateproduct.html",context={'product':product})
 
 def removeCartProduct(request):
     if request.method=='POST':
@@ -388,57 +473,5 @@ def contact(request):
     return render(request,'main/contact.html')
 
 
-# update product by seller :
-@login_required
-def updateProduct(request):
-    if request.method=='POST':
-        productID = request.POST.get('productID')
-    try :
-        # import pdb; pdb.set_trace()
-        p = Products.objects.filter(product_id=productID)
-        p.delete()
-        product=ProductForm(request.POST,request.FILES)
-        if product.is_valid():
-            temp=product.save(commit=False)
-            product.product_id=productID
-            seller=Sellers.objects.filter(user=request.user).first()
-            if p.seller==seller:
-                product.seller=seller
-                product.save()
-                return redirect('/viewProduct/')
-            else:
-                messages.error('You are not authorised for this product')
-                return redirect('/updateproduct/')
-    except ValueError:
-        messages.warning('Productwith product ID {} is not valid...'.format(productID))
-    return render (request=request, template_name="main/updateproduct.html",context={'product':product})
 
 
-# Working on :
-# @login_required
-# def search(request):
-#     searchText = request.GET.get('searchText','')
-#     products = Products.objects.filter(product_name=searchText)
-#     return render(request,'main/search.html',{'products':products})
-
-# def mainHome(request):
-#     return render(request,'main/mainHome.html')
-
-# ADMIN login:
-# def adminlogin(request):
-#     return render (request=request, template_name="main/adminlogin.html")
-
-# def adminloginvalidate(request):
-#     if request.method=='POST':
-#         uname=request.POST.get('userID')
-#         password=request.POST.get('password')
-#         user=authenticate(request, username=uname, password=password)
-#         if user and Sellers.objects.filter(user=user).first():
-#             login(request, user)
-#             request.session['username']=uname
-#             return redirect("/adminpage/")
-#         else:
-#             messages.error(request,'You are not a valid AdminUser')
-#             return redirect("/adminlogin/")
-#     else:
-#         return redirect("/adminlogin/")

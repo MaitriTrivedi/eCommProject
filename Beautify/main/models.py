@@ -13,6 +13,10 @@ CATEGORY_CHOICES=(
     ('FACE','FaceProducts'),
 )
 
+# class Category(models.Model):
+#     name=models.CharField(max_length=100)
+#     category=models.CharField(max_length=100)
+
 class Sellers(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=100)
@@ -27,7 +31,6 @@ class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
     product_name=models.CharField(max_length=100,null=True)
     price = models.FloatField(null=False)
-    # discounted_price=models.FloatField(null=False)
     description = models.TextField(null=True)
     category = models.CharField(choices=CATEGORY_CHOICES,max_length=30,null=True)
     quantity  = models.IntegerField(default=0,null=True)

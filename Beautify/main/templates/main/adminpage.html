@@ -106,20 +106,21 @@
          <button style="display: inline;"float:left;>ADD PRODUCT</button>
       </form>
       <br>
-      <form method='POST' action='/viewProduct/'>
+      <!-- <form method='POST' action='/viewMyProduct/'>
          {%csrf_token%}
          <button style="display: inline;">VIEW PRODUCT</button>
-      </form>
+      </form> -->
       <br>
-      <form method='POST' action='/removeProduct/'>
+      <form method='POST' action='/viewMyProduct/'>
          {%csrf_token%} 
-         <button style="display: inline;">REMOVE PRODUCT</button>
+         <input hidden name="value" value="admin"></input>
+         <button style="display: inline;">VIEW MY PRODUCTS</button>
       </form><br>
 
-      <form method='POST' action='/updateProduct/'>
+      <!-- <form method='POST' action='/updateProduct/'>
          {%csrf_token%} 
          <button style="display: inline;">UPDATE PRODUCT</button>
-      </form>
+      </form> -->
    </div>
    {%else%}
    <p>LOGIN</p>
