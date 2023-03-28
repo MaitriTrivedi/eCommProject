@@ -13,9 +13,6 @@ CATEGORY_CHOICES=(
     ('FACE','FaceProducts'),
 )
 
-# class Category(models.Model):
-#     name=models.CharField(max_length=100)
-#     category=models.CharField(max_length=100)
 
 class Sellers(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

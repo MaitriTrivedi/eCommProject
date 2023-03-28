@@ -14,6 +14,11 @@ class UserModelAdmin(admin.ModelAdmin):
 class CartModelAdmin(admin.ModelAdmin):
     list_display = ('username','is_paid')
 
+# admin.site.register(Category)
+# @admin.register(Category)
+# class CategoryModelAdmin(admin.ModelAdmin):
+#     list_display = ('name',)
+
 @admin.register(Sellers)
 class SellersModelAdmin(admin.ModelAdmin):
     list_display = ('id','user','company_name','address','phone')

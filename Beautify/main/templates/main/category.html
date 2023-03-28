@@ -1,82 +1,77 @@
 {%extends "main/base.html"%}
     {%block header%}
-      <!-- header section start -->
-      <div class="header_section">
-         <div class="container-fluid">
-            <nav class="navbar navbar-light bg-light justify-content-between">
+  <div class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-light bg-light justify-content-between">
 
-               <div id="mySidenav" class="sidenav">
-                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                  <a href="{%url 'index'%}">Home</a>
-                  <a href="{%url 'viewProduct'%}">Products</a>
-                  <a href="{%url 'about'%}">About</a>
-                  <a href="{%url 'contact'%}">Contact</a>
-               </div>
-               <span class="toggle_icon" onclick="openNav()"><img src="/static/images/toggle-icon.png"></span>
-               
-               <a class="logo" href="index.html"><img src="/static/images/logo.png"></a></a>
-               <form class="form-inline ">
-                  <div class="login_text">
-                     <ul>
-                        <div class="dropdown">
-                            <li class="dropbtn"><a style="color:black;">Category</a>
-                            <div class="dropdown-content">
-                              <a href="{%url 'category' 'MAKEUP' %}">Make Up</a>
-                              <a href="{%url 'category' 'FACE' %}">Face</a>
-                              <a href="{%url 'category' 'HAIR' %}">Hair</a>
-                              <a href="{%url 'category' 'LIPS' %}">Lips</a>
-                              <a href="{%url 'category' 'EYE' %}">Eye</a>
-                              <a href="{%url 'category' 'NAIL' %}">Nail</a>
-                              <a href="{%url 'category' 'FOOT' %}">Foot</a>
-                            
-                            </div>
-                          </div>
-                        </li>
-                       <li>
-                            <form class="example" action="action_page.php">
-                                <input type="text" placeholder="Search.." name="search">
-                              </form></li>
-                            <li><a href="#"><img src="/static/images/search-icon.png"></a></li>
-        </ul>
-                  </div>
-               </form>
-            </nav>
-         </div>
+            <div id="mySidenav" class="sidenav">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+              <a href="{%url 'index'%}">Home</a>
+              <a href="{%url 'viewProduct'%}">Products</a>
+              <a href="{%url 'about'%}">About</a>
+              <a href="{%url 'contact'%}">Contact</a>
+            </div>
+            <span class="toggle_icon" onclick="openNav()"><img src="/static/images/toggle-icon.png"></span>
+            
+            <a class="logo" href="index.html"><img src="/static/images/logo.png"></a></a>
+            <form class="form-inline ">
+              <div class="login_text">
+                  <ul>
+                    <div class="dropdown">
+                        <li class="dropbtn"><a style="color:black;">Category</a>
+                        <div class="dropdown-content">
+                          <a href="{%url 'category' 'MAKEUP' %}">Make Up</a>
+                          <a href="{%url 'category' 'FACE' %}">Face</a>
+                          <a href="{%url 'category' 'HAIR' %}">Hair</a>
+                          <a href="{%url 'category' 'LIPS' %}">Lips</a>
+                          <a href="{%url 'category' 'EYE' %}">Eye</a>
+                          <a href="{%url 'category' 'NAIL' %}">Nail</a>
+                          <a href="{%url 'category' 'FOOT' %}">Foot</a>
+                        
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                        <form class="example" action="action_page.php">
+                            <input type="text" placeholder="Search.." name="search">
+                          </form></li>
+                        <li><a href="#"><img src="/static/images/search-icon.png"></a></li>
+    </ul>
+              </div>
+            </form>
+        </nav>
       </div>
+  </div>
 
-      
-      {%endblock%}
-      {% block banner%}
-       
-       <div>
-         <h1 class="product_taital">{{val}}</h1></div>
-       {% comment %} <form>
-         <input hidden type='text' name='slug' value={{val}}> 
-       </from> {% endcomment %}
-
-     
-     <!-- product section end -->
-     <div class="row">
-     {%for i in product %}
-     <div class="col-md-6 col-lg-4 col-xl-3">
-         <div id="product-4" class="single-product">
-             <div class="part-1">
-                 <ul>
-                   <img style='height:250px;' src='{{MEDIA_ROOT}}/{{i.product_image}}' class="card-img-top" alt="...">
-                   <h5 class="card-title"></h5>
-           <!-- <p class="card-text">{{i.description}}</p> -->
-                 </ul>
-             </div>
-             <div class="part-2">
-               <h3 class="price_text" style="color:black; width:auto;">{{i.quantity}} avialable</h3>
-                 <h3 class="product-title">{{i.product_name}}</h3>
-                 <h4 class="product-price">Rs.{{i.price}}</h4>
-             </div>
-             {%if session.username != '' %}
-             <a href="{% url 'addToCart' i.product_id %}" class="btn btn-primary">Add To Cart</a>
-             {%endif%} 
-         </div>
-     </div>
+  
+  {%endblock%}
+  {% block banner%}
+    
+    <div>
+      <h1 class="product_taital">{{val}}</h1></div>
+    {% comment %} <form>
+      <input hidden type='text' name='slug' value={{val}}> 
+    </from> {% endcomment %}
+  <div class="row">
+  {%for i in product %}
+  <div class="col-md-6 col-lg-4 col-xl-3">
+      <div id="product-4" class="single-product">
+          <div class="part-1">
+              <ul>
+                <img style='height:250px;' src='{{MEDIA_ROOT}}/{{i.product_image}}' class="card-img-top" alt="...">
+                <h5 class="card-title"></h5>
+              </ul>
+          </div>
+          <div class="part-2">
+            <h3 class="price_text" style="color:black; width:auto;">{{i.quantity}} avialable</h3>
+              <h3 class="product-title">{{i.product_name}}</h3>
+              <h4 class="product-price">Rs.{{i.price}}</h4>
+          </div>
+          {%if session.username != '' %}
+          <a href="{% url 'addToCart' i.product_id %}" class="btn btn-primary">Add To Cart</a>
+          {%endif%} 
+      </div>
+  </div>
 {%endfor%}
  </div>
 </div>
@@ -84,10 +79,4 @@
 </section>
 {%endblock%}
 {% block main-content%}{% endblock%}
-<!-- {%block footer%}{% endblock%} -->
-<!-- {%block contact%}{% endblock%} -->
-<!-- {% block customer%}{% endblock%} -->
-<!-- {% block about%}{% endblock%} -->
-<!-- {%block last%}{% endblock%} -->
-<!-- {%block copyright%}{% endblock%} -->
       

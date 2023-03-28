@@ -7,25 +7,20 @@
          <div class="row">
             <div class="col-md-6">
                <div class="about_taital_main">
-
                   <form method='POST' action='/add-product-to-db/' enctype="multipart/form-data">
-                     {%csrf_token%}
-                     {% for i in product_form %}
-                        <div>
-                           {% comment %} {% if i.label != 'Seller' %} {% endcomment %}
-                           <label class="required">{{i.label}}</label>
-                           {{i}}
-                           {% comment %} {%else%} {% endcomment %}
-                           {% comment %} <input hidden type="text" name="seller" value={{product_form.context.seller}} required id="id_seller"> {% endcomment %}
-                           {% comment %} {%endif%} {% endcomment %}
-                        </div>
-                     {% endfor %}
-                     {% if messages %}
-                     {% for message in messages %}
-                     <h3><div class="alert alert-{{ message.tags }}">{{ message }}</div></h3>
-                     {% endfor %}
-                     {% endif %}
-                     <button>ADD PRODUCT</button>
+                  {%csrf_token%}
+                  {% for i in product_form %}
+                     <div>
+                        <label class="required">{{i.label}}</label>
+                        {{i}}
+                     </div>
+                  {% endfor %}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <h3><div class="alert alert-{{ message.tags }}">{{ message }}</div></h3>
+                  {% endfor %}
+                  {% endif %}
+                  <button>ADD PRODUCT</button>
                   </form>
                   <script>
                      ele=document.getElementById('id_decription');

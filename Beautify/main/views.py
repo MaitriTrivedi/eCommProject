@@ -14,6 +14,7 @@ from .forms import UserForm, ProductForm, SellerForm
 
 session = {'username':''}
 
+
 # LOGIN :
    
 # USER :
@@ -102,7 +103,6 @@ def adminregister(request):
             return redirect("/registerAdminForm/")
         # if user with username already registered, then it will create an exception
         try:
-            # import pdb;pdb.set_trace()
             user=User.objects.create_user(username=username,password=password1)
             seller=Sellers.objects.create(user=user)
             user.email=email
@@ -123,7 +123,6 @@ def adminregister(request):
 # LOGOUT :
 @login_required
 def logoutPage(request):
-    # request.session['username']=''
     logout(request)
     return render(request,'main/login.html')
 
@@ -131,7 +130,6 @@ def logoutPage(request):
 # CART :
 @login_required
 def updatecart(request):
-    # quantity=request.POST.get('quantity')
     sign = request.POST.get('sign')
     id=request.POST.get('id')
     remove = request.POST.get('remove')
@@ -279,24 +277,19 @@ def update_cart(request, product_id):
         cart.pop(product_id, None)
     request.session['cart'] = cart
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    # return redirect('cart')
 
 
 # To view products :
 @login_required
 def viewProduct(request):
     if request.POST.get('value')=='admin':
-        # import pdb; pdb.set_trace();
         temp1 =User.objects.get(username=request.session['username'])
-        print(temp1)
         temp2=Sellers.objects.get(user=temp1)
-        print(temp2)
         products = Products.objects.filter(seller=temp2)
         return render(request,'main/removeProduct.html',{'products':products})
     else:
         products = Products.objects.all()
-        return render(request,'main/viewProduct.html',{'products':products})
-    
+        return render(request,'main/viewProduct.html',{'products':products}) 
 
 
 # To view product in detail :
@@ -309,7 +302,6 @@ def view(request,id):
 # To add products by the seller
 @login_required
 def addProduct(request):
-    # import pdb;pdb.set_trace()
     context={'seller':request.user}
     form = ProductForm()
     return render (request=request, template_name="main/addProduct.html", context={"product_form":form,'seller':request.user})
@@ -336,14 +328,15 @@ def addProductToDB(request):
 @login_required
 def viewMyProduct(request):
     context={}
-    # if request.POST.get('value')=='admin':
-    temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
-    context['products'] = Products.objects.filter(seller=temp1)
-    print(context['products'])
-    context['admin']=request.user
-    print(context['admin'])
-    return render(request,'main/viewMyProduct.html',context)
-    
+    try:
+        temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
+        context['products'] = Products.objects.filter(seller=temp1)
+        context['admin']=request.user
+        return render(request,'main/viewMyProduct.html',context)
+    except KeyError:
+        return redirect('/login/')
+
+
 # To update my products :
 @login_required
 def updateMyProduct(request):
@@ -352,24 +345,19 @@ def updateMyProduct(request):
         removeOrUpdate=request.POST.get('removeOrUpdate')
         id=request.POST.get('productID')
         admin=request.POST.get('admin')
-        print(removeOrUpdate)
-        print(id)
         context['admin']=request.user
         context['id']=id
         if removeOrUpdate=='remove':
             product=Products.objects.get(product_id=id)
             product.delete()
         if removeOrUpdate=='update':
-            # url='/updateEach/'+str(context['id'])
             p = Products.objects.get(product_id=id)
             product = ProductForm(instance=p)
             context['product']=product
             context['id']=id
             return render(request,'main/updateproduct.html',context)
-            # product=Products.objects.get(product_id=id)
-            # return render(request,'main/updateproduct.html',context)
-    
     return redirect('/viewMyProduct/',context)
+
 
 def updateEach(request,id):
     try:
@@ -395,13 +383,9 @@ def updateEach(request,id):
 # update product by seller :
 @login_required
 def updateProduct(request):
-    print('-------')
     if request.method=='POST':
         productID = request.POST.get('productID')
-        print('-------')
-        print(productID)
     try :
-        # import pdb; pdb.set_trace()
         p = Products.objects.filter(product_id=productID)
         p.delete()
         product=ProductForm(request.POST,request.FILES)
@@ -419,6 +403,7 @@ def updateProduct(request):
     except ValueError:
         messages.warning('Productwith product ID {} is not valid...'.format(productID))
     return render (request=request, template_name="main/updateproduct.html",context={'product':product})
+
 
 def removeCartProduct(request):
     if request.method=='POST':
@@ -447,7 +432,6 @@ def myprofile(request,username):
 
 
 # Home page of admin :
-@login_required
 def adminpage(request):
     session['username']=request.user
     return render(request,'main/adminpage.html')
@@ -471,7 +455,3 @@ def about(request):
 # Contact page of the site :
 def contact(request):
     return render(request,'main/contact.html')
-
-
-
-

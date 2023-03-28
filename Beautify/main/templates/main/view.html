@@ -1,8 +1,7 @@
 {%extends "main/base.html"%}
 {% block title%}Products{%endblock title%}
 {%block header%}
-      <!-- header section start -->
-      <div class="header_section">
+<div class="header_section">
          <div class="container-fluid" style='margin-top:30px;'>
             <nav class="navbar navbar-light bg-light justify-content-between">
 
@@ -48,10 +47,7 @@
                </form>
                <form class="form-inline ">
                   <div class="login_text">
-                     <ul>
-                       
-                        <!-- <li><a href="#"><img src="/static/images/user-icon.png"></a></li> -->
-                        {% if session.username != '' %}
+                     <ul> {% if session.username != '' %}
                         <li>
                         <div class="dropdown">
                             <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
@@ -79,7 +75,6 @@
          </div>
       </div>
       {%endblock%}
-      <!-- header section end -->
 {% block banner%}{%endblock%}
 {% block main-content%}{% endblock %}
 

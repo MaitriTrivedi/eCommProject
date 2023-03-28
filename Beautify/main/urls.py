@@ -8,8 +8,6 @@ urlpatterns = [
     # login :
     path('login/',views.loginPage,name='login'),# user
     path('login-user/',views.loginUser,name='login user'),# user
-    # path('adminlogin/',views.adminlogin,name='adminlogin'),# admin
-    # path('admin-login-validate/',views.login,name='adminlogin'),# admin
 
     #logout :
     path('logout/',views.logoutPage,name='logout'),
@@ -22,7 +20,6 @@ urlpatterns = [
     #extra pages:
     path('contact/',views.contact,name='contact'),
     path('about/',views.about,name='about'),
-    # path('search/',views.search,name='search'),
 
     # user:
     path('cart/',views.cart,name='cart'),
@@ -39,7 +36,6 @@ urlpatterns = [
     path('adminpage/',views.adminpage,name='adminpage'), # admin Home page
     path('add-product-to-db/',views.addProductToDB,name='addItemToDB'),
     path('addProduct/',views.addProduct,name='addProduct'),
-    # path('removeProduct/',views.removeProduct,name='removeProduct'),
     path('updateMyProduct/',views.updateMyProduct,name='updateMyProduct'),
 
     # working :
@@ -47,13 +43,10 @@ urlpatterns = [
     path('register/',views.register,name='register'),
     path('registerAdminForm/',views.registerAdminForm,name='registerAdminForm'),
     path('register-user/',views.registerUser,name='registerUser'),
-    # path('mainHome/',views.mainHome,name='mainHome'),
     path('update_cart/<int:product_id>/', views.update_cart, name='updateCart'),
-
-    # path('removeCartProduct/',views.removeCartProduct,name='removeCartProduct'),
     path('adminregister/',views.adminregister,name='adminregister'),
-    # path('main/',views.main,name='main'),
-    # path('register/',views.register,name='register'),
+  
 ]
+
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
