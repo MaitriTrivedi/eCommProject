@@ -19,9 +19,17 @@ session = {'username':''}
    
 # USER :
 def loginPage(request):
+    """
+    Displays the login page.
+    """
     return render(request,'main/login.html')
 
 def loginUser(request):
+    """
+    From the login page,
+    if the user is a seller, then logs the user in and takes the user to adminpage.
+    if the user is a normal user, then logs the user in and takes the user to home page.
+    """
     if request.method=='POST':
         uname=request.POST.get('username')
         password=request.POST.get('password')
@@ -44,11 +52,17 @@ def loginUser(request):
 # REGISTER : 
 # USER :
 def register(request):
+    """
+    Displays the user-register page.
+    """
     form = UserForm()
     return render (request=request, template_name="main/register.html", context={"register_form":form})
 
 
 def registerUser(request):
+    """
+    takes the user to the login page.
+    """
     if request.method=='POST':
         username=request.POST.get('username')
         email=request.POST.get('email')
@@ -82,11 +96,17 @@ def registerUser(request):
 
 # ADMIN :
 def registerAdminForm(request):
+    """
+    Displays the admin-register page.
+    """
     form = SellerForm()
     return render (request=request, template_name="main/adminregister.html", context={"register_form":form})
 
 
 def adminregister(request):
+    """
+    Takes the seller to the login page.
+    """
     if request.method=='POST':
         username=request.POST.get('username')
         company_name=request.POST.get('company_name')
@@ -123,13 +143,49 @@ def adminregister(request):
 # LOGOUT :
 @login_required
 def logoutPage(request):
+    """
+    Logs the user out and takes the user to login page.
+    """
     logout(request)
     return render(request,'main/login.html')
 
 
+# To view items category wise :
+class Category(View):
+    def get(self,request,val):
+        product = Products.objects.filter(category=val)
+        return render(request,'main/category.html',locals())
+
+
 # CART :
+# Add product to cart :
+@login_required
+def addToCart(request,product_id):
+    """
+    Adds product to user's cart.
+    """
+    product = Products.objects.get(product_id=product_id)
+    user = request.user
+    cart , _ = Cart.objects.get_or_create(username=user,is_paid=False)
+    cart.save()
+    if CartItems.objects.filter(cart=cart,products=product):
+        temp=CartItems.objects.filter(cart=cart,products=product).first()
+        temp.quantity = temp.quantity + 1
+        temp.total_price= temp.quantity * product.price
+        temp.save()
+    else:
+        cart_items = CartItems.objects.create(cart=cart,products=product)
+        cart_items.quantity = 1
+        cart_items.total_price= cart_items.quantity * product.price
+        cart_items.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+# Update cart :
 @login_required
 def updatecart(request):
+    """
+    Increase , decrease quantity of a particular product and removes a particular product.
+    """
     sign = request.POST.get('sign')
     id=request.POST.get('id')
     remove = request.POST.get('remove')
@@ -141,10 +197,14 @@ def updatecart(request):
         return render(request,'main/cart.html',context)
     subtotal=0
     temp = Products.objects.filter(product_id=id).first()
+
+    # to remove
     if remove=='remove':
         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
         objects_delete.delete()
         return HttpResponseRedirect('/cart/',context)
+    
+    # to decrease the quantity
     if sign=='-':
         cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
         cart_objects.quantity=cart_objects.quantity-1
@@ -153,6 +213,8 @@ def updatecart(request):
             cart_objects.delete()
         else:
             cart_objects.save()
+
+    # to increase the quantity
     if sign=='+':
         cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
         cart_objects.quantity=cart_objects.quantity+1
@@ -160,9 +222,12 @@ def updatecart(request):
         cart_objects.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
+# View cart items :
 @login_required
 def cart(request):
+    """
+    Shows user the items in the cart.
+    """
     sign = request.POST.get('sign')
     id=request.POST.get('id')
     remove = request.POST.get('remove')
@@ -183,15 +248,12 @@ def cart(request):
     context['grandtotal']=totalCost+100+context['tax']
     return render(request,'main/cart.html',context)
 
-
-class Category(View):
-    def get(self,request,val):
-        product = Products.objects.filter(category=val)
-        return render(request,'main/category.html',locals())
-
-
+# checkout :
 @login_required
 def checkout(request):
+    """
+    Takes the user to the payment page.
+    """
     context = {}
     if request.method=='POST':
         context['subtotal']=request.POST.get('subtotal')
@@ -207,9 +269,12 @@ def checkout(request):
                     context['grandtotal']=int(float(context['grandtotal']))-discount_price
     return render(request,'main/checkout.html',context)
 
-
+# pay :
 @login_required
 def pay(request):
+    """
+    Starts the payment process.
+    """
     context={}
     if request.method=='POST':
         current_user_cart=Cart.objects.filter(username=request.user).first()
@@ -226,9 +291,12 @@ def pay(request):
         context['shipping']=request.POST.get('shipping')
     return render(request,'main/pay.html',context)
 
-
+# Check order history :
 @login_required
 def order(request):
+    """
+    Shows the order history.
+    """
     context={'orders':[]}
     context['grandtotal']=[]
     order=Order.objects.filter(username=request.user)
@@ -248,40 +316,12 @@ def order(request):
     return render(request,'main/order.html',context)
 
 
-@login_required
-def addToCart(request,product_id):
-    product = Products.objects.get(product_id=product_id)
-    user = request.user
-    cart , _ = Cart.objects.get_or_create(username=user,is_paid=False)
-    cart.save()
-    if CartItems.objects.filter(cart=cart,products=product):
-        temp=CartItems.objects.filter(cart=cart,products=product).first()
-        temp.quantity = temp.quantity + 1
-        temp.total_price= temp.quantity * product.price
-        temp.save()
-    else:
-        cart_items = CartItems.objects.create(cart=cart,products=product)
-        cart_items.quantity = 1
-        cart_items.total_price= cart_items.quantity * product.price
-        cart_items.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-@login_required
-def update_cart(request, product_id):
-    quantity = int(request.POST.get('quantity'))
-    cart = request.session.get('cart', {})
-    if quantity > 0:
-        cart[product_id] = quantity
-    else:
-        cart.pop(product_id, None)
-    request.session['cart'] = cart
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
 # To view products :
 @login_required
 def viewProduct(request):
+    """
+    Shows all the products.
+    """
     if request.POST.get('value')=='admin':
         temp1 =User.objects.get(username=request.session['username'])
         temp2=Sellers.objects.get(user=temp1)
@@ -295,6 +335,9 @@ def viewProduct(request):
 # To view product in detail :
 @login_required
 def view(request,id):
+    """
+    Shows the particular product in detail.
+    """
     product = Products.objects.get(product_id=id)
     return render(request,'main/view.html',{'product':product})
 
@@ -302,6 +345,9 @@ def view(request,id):
 # To add products by the seller
 @login_required
 def addProduct(request):
+    """
+    Adds product by the seller.
+    """
     context={'seller':request.user}
     form = ProductForm()
     return render (request=request, template_name="main/addProduct.html", context={"product_form":form,'seller':request.user})
@@ -309,6 +355,9 @@ def addProduct(request):
 
 @login_required
 def addProductToDB(request):
+    """
+    Saves the added product to database for further operations.
+    """
     if request.method=='POST':
         productform=ProductForm(request.POST,request.FILES)
         if productform.is_valid():
@@ -327,6 +376,9 @@ def addProductToDB(request):
 # To view products for seller :
 @login_required
 def viewMyProduct(request):
+    """
+    Shows all the products added by that particular seller.
+    """
     context={}
     try:
         temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
@@ -340,6 +392,9 @@ def viewMyProduct(request):
 # To update my products :
 @login_required
 def updateMyProduct(request):
+    """
+    Enables the seller to update or remove the product.
+    """
     context={}
     if request.method=='POST':
         removeOrUpdate=request.POST.get('removeOrUpdate')
@@ -360,6 +415,9 @@ def updateMyProduct(request):
 
 
 def updateEach(request,id):
+    """
+    Shows the updateProduct page with prefilled fields.
+    """
     try:
         p = Products.objects.get(product_id=int(id))
         product = ProductForm(request.POST or None, instance=p)
@@ -383,6 +441,9 @@ def updateEach(request,id):
 # update product by seller :
 @login_required
 def updateProduct(request):
+    """
+    For updating selected item from the updateMyProduct view and save them to the database.
+    """
     if request.method=='POST':
         productID = request.POST.get('productID')
     try :
@@ -405,21 +466,12 @@ def updateProduct(request):
     return render (request=request, template_name="main/updateproduct.html",context={'product':product})
 
 
-def removeCartProduct(request):
-    if request.method=='POST':
-        productID = request.POST.get('productID')
-        try :
-            p = CartItems.objects.filter(products=productID)
-            p.delete()
-            messages.warning(request, 'Product deleted successfully.')
-        except ValueError:
-            messages.warning('Productwith product ID {} is not valid...'.format(productID))
-    return render (request=request, template_name="main/removeProduct.html")
-
-
 # To see user's profile :
 @login_required
 def myprofile(request,username):
+    """
+    Shows user profile.
+    """
     context={}
     user = User.objects.filter(username =username).first()
     if UserData.objects.filter(username =user).first():
@@ -433,6 +485,9 @@ def myprofile(request,username):
 
 # Home page of admin :
 def adminpage(request):
+    """
+    Takes seller to admin page to add, remove or update product.
+    """
     session['username']=request.user
     return render(request,'main/adminpage.html')
 
@@ -440,6 +495,9 @@ def adminpage(request):
 # Home page of User :
 @login_required
 def index(request):
+    """
+    Takes user to home page.
+    """
     products= Products.objects.all()
     n= len(products)
     nSlides= n//4 + math.ceil((n/4) + (n//4))
@@ -449,9 +507,15 @@ def index(request):
 
 # About page of the site :
 def about(request):
+    """
+    Takes user to about page.
+    """
     return render(request,'main/about.html')
 
 
 # Contact page of the site :
 def contact(request):
+    """
+    Takes user to contact page.
+    """
     return render(request,'main/contact.html')
