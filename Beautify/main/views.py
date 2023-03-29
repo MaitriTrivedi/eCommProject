@@ -171,11 +171,15 @@ def addToCart(request,product_id):
     if CartItems.objects.filter(cart=cart,products=product):
         temp=CartItems.objects.filter(cart=cart,products=product).first()
         temp.quantity = temp.quantity + 1
+        product.quantity=product.quantity-1
+        product.save()
         temp.total_price= temp.quantity * product.price
         temp.save()
     else:
         cart_items = CartItems.objects.create(cart=cart,products=product)
         cart_items.quantity = 1
+        product.quantity=product.quantity-1
+        product.save()
         cart_items.total_price= cart_items.quantity * product.price
         cart_items.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -196,11 +200,13 @@ def updatecart(request):
         messages.error(request,'No Items in Cart')
         return render(request,'main/cart.html',context)
     subtotal=0
-    temp = Products.objects.filter(product_id=id).first()
+    temp = Products.objects.get(product_id=id)
 
     # to remove
     if remove=='remove':
         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
+        temp.quantity=temp.quantity+objects_delete[0].quantity
+        temp.save()
         objects_delete.delete()
         return HttpResponseRedirect('/cart/',context)
     
@@ -208,6 +214,8 @@ def updatecart(request):
     if sign=='-':
         cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
         cart_objects.quantity=cart_objects.quantity-1
+        temp.quantity=temp.quantity+1
+        temp.save()
         cart_objects.total_price=cart_objects.total_price-(cart_objects.products.price)
         if cart_objects.quantity==0:
             cart_objects.delete()
@@ -218,6 +226,8 @@ def updatecart(request):
     if sign=='+':
         cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
         cart_objects.quantity=cart_objects.quantity+1
+        temp.quantity=temp.quantity-1
+        temp.save()
         cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
         cart_objects.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
