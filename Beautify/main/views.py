@@ -10,7 +10,21 @@ from django.http import HttpResponseRedirect
 
 from .models import Products,UserData, Cart, CartItems,Coupon,Order,OrderItems,Sellers
 from .forms import UserForm, ProductForm, SellerForm
+from django.shortcuts import redirect
+from django.urls import reverse
 
+# decorator :
+def isSeller(function):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(reverse('login'))
+
+        # Check if user exists in table
+        if not Sellers.objects.filter(user=request.user).exists():
+            return redirect(reverse('home'))
+
+        return function(request, *args, **kwargs)
+    return wrapper
 
 session = {'username':''}
 
@@ -354,6 +368,7 @@ def view(request,id):
 
 # To add products by the seller
 @login_required
+@isSeller
 def addProduct(request):
     """
     Adds product by the seller.
@@ -362,8 +377,8 @@ def addProduct(request):
     form = ProductForm()
     return render (request=request, template_name="main/addProduct.html", context={"product_form":form,'seller':request.user})
 
-
 @login_required
+@isSeller
 def addProductToDB(request):
     """
     Saves the added product to database for further operations.
@@ -385,6 +400,7 @@ def addProductToDB(request):
 
 # To view products for seller :
 @login_required
+@isSeller
 def viewMyProduct(request):
     """
     Shows all the products added by that particular seller.
@@ -401,6 +417,7 @@ def viewMyProduct(request):
 
 # To update my products :
 @login_required
+@isSeller
 def updateMyProduct(request):
     """
     Enables the seller to update or remove the product.
@@ -424,6 +441,8 @@ def updateMyProduct(request):
     return redirect('/viewMyProduct/',context)
 
 
+@login_required
+@isSeller
 def updateEach(request,id):
     """
     Shows the updateProduct page with prefilled fields.
@@ -450,6 +469,7 @@ def updateEach(request,id):
 
 # update product by seller :
 @login_required
+@isSeller
 def updateProduct(request):
     """
     For updating selected item from the updateMyProduct view and save them to the database.
