@@ -99,17 +99,18 @@
                       <ul>
                         <img style='height:250px;' src='{{MEDIA_ROOT}}/{{i.product_image}}' class="card-img-top" alt="...">
                         <h5 class="card-title"></h5>
-                <p class="card-text">{{i.description}}</p>
-                <h3 class="price_text" style="color:black;">Price Rs.</h3>
-         
-                
+                        <p class="card-text">{{i.description}}</p>
                       </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="price_text" style="color:black;">{{i.quantity}} avialable</h3>
-                      <h3 class="product-title">{{i.product_name}}</h3>
-                      <h4 class="product-price">Rs.{{i.price}}</h4>
-                  </div>
+                    </div>
+                        <div class="part-2">
+                          <ul>
+                          <h3 class="price_text" style="color:black;">{{i.quantity}} avialable</h3>
+                            <h3 class="product-title">{{i.product_name}}</h3>
+                            <h4 class="product-price">Rs.{{i.price}}</h4>
+                          </ul>
+                        </div>
+                
+                  
                   {%if session.username != '' %}
                   <a href="{% url 'addToCart' i.product_id %}" class="btn btn-primary">Add To Cart</a>
                   {%endif%} 
