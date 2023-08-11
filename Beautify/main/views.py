@@ -531,7 +531,17 @@ def index(request):
     products= Products.objects.all()
     n= len(products)
     nSlides= n//4 + math.ceil((n/4) + (n//4))
-    params={'no_of_slides':nSlides, 'range':range(1,nSlides), 'products': products,'session':session}
+    
+
+    cart=Cart.objects.get(username=request.user)
+    cart_count = 0
+    try :
+        cart_items = CartItems.objects.filter(cart=cart)
+        for i in cart_items :
+            cart_count =cart_count + i.quantity
+    except IndexError:
+        cart_count = 0
+    params={'no_of_slides':nSlides, 'range':range(1,nSlides), 'products': products,'session':session,'cart_count':cart_count}
     return render(request,'main/index.html',params)
 
 
