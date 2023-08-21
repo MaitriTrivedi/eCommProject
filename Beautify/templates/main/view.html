@@ -1,0 +1,64 @@
+{%extends "main/base.html"%}
+{% block title%}Products{%endblock title%}
+{%block header%}
+{% include "main/header.html" %}
+      {%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}{% endblock %}
+
+     
+{%block footer%}<section class="section-products">
+  <div class="container">
+      <div class="row justify-content-center text-center">
+          <div class="col-md-8 col-lg-6">
+              <div class="header">
+                <br>
+                  <h3>Product : {{product.product_name}}</h3>
+              </div>
+          </div>
+      </div>
+<table style='margin:auto;'>
+    <tr>
+        <td style='width:225px;height:250px;'>
+      <div class="row" style='width:225px;height:250px;'>
+          <div class="col-md-6 col-lg-4 col-xl-3">
+              <div id="product-4" class="single-product" style='width:225px;height:250px;'>
+                  <div class="part-1">
+                      <ul>
+                        <img style='width:225px;height:250px;' src='{{MEDIA_ROOT}}/{{product.product_image}}' class="card-img-top" alt="...">
+                        <h5 class="card-title"></h5>
+              </div>
+          </div>
+      </div>
+  </div>
+</td>
+
+
+  <td>
+    <table>
+  <div class="row">
+    <div class="col-md-6 col-lg-4 col-xl-3">
+        <div id="product-4" class="single-product">
+            <div class="part-1">
+            </div>
+            <div class="part-2">
+                <tr><td><h3 class="card-text">{{product.description}}</h3></tr></td>
+                <tr><td> <h4 class="product-price" style="width:225px;">{{product.quantity}} avialable</h3></tr></td>
+                <tr><td><h3 class="product-title" style="width:225px; float: left;">{{product.product_name}}</h3></tr></td>
+                <tr><td> <h4 class="product-price" style="width:225px;">Rs.{{product.price}}</h4></tr></td>
+                {%if request.username != '' %}
+                <tr><td><a href="{% url 'addToCart' product.product_id %}" class="btn btn-primary">Add To Cart</a></tr></td>
+                {%endif%} 
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div></table></td>
+</tr>
+</table>
+</section>{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block copyright%}{%endblock%}

@@ -48,7 +48,7 @@
                <form class="form-inline ">
                   <div class="login_text">
                      <ul>
-                        {% if session.username != '' %}
+                        {% if request.username != '' %}
                         <li>
                         <div class="dropdown">
                             <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
@@ -61,12 +61,12 @@
   
                           {%endif%}
 
-                        {% if request.session.username == '' %}
+                        {% if request.username == '' %}
                          <li> <div class="login_text"></div></li>
                           <li class="link-item" id='a'><a href="http://127.0.0.1:8000/login/" style="color:black;">Log In</a></li>
                           <li class="link-item" id='a'><a href="{% url 'register' %}" style="color:black;">Sign Up</a></li>
                         {% else %}
-                        <li class="link-item" id='a'><a  style="color:black;">{{ request.session.username }}</a></li>
+                        <li class="link-item" id='a'><a  style="color:black;">{{ request.username }}</a></li>
                         {% endif %}
                         </div>
                      </ul>
@@ -107,7 +107,7 @@
                   </div>
                 
                   
-                  {%if session.username != '' %}
+                  {%if request.username != '' %}
                   <a href="{% url 'addToCart' i.product_id %}" class="btn btn-primary">Add To Cart</a>
                   {%endif%} 
               </div>

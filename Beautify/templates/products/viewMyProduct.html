@@ -1,0 +1,66 @@
+{%extends "main/base.html"%}
+{% block title%}Products{%endblock title%}
+{%block header%}
+{% include "main/header.html" %}
+      {%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}{% endblock %}
+
+     
+{%block footer%}
+<script>
+   function confirmDelete() {
+       var result = confirm("Are you sure you want to delete this product?");
+       if (result) {
+           return true;
+       } else {
+           return false;
+       }
+   }
+   </script><section class="section-products">
+  <div class="container">
+      <div class="row justify-content-center text-center">
+          <div class="col-md-8 col-lg-6">
+          </div>
+      </div>
+      <div class="row">
+          {%for i in products %}
+          <div class="col-md-6 col-lg-4 col-xl-3">
+              <div id="product-4" class="single-product">
+                  <div class="part-1">
+                      <span class="new">new</span>
+                      <ul>
+                        <img style='height:250px;' src='{{MEDIA_ROOT}}/{{i.product_image}}' class="card-img-top" alt="...">
+                        <h5 class="card-title"></h5>
+                <p class="card-text">{{i.description}}</p>
+         
+                
+                      </ul>
+                  </div>
+                  <div class="part-2">
+                    
+                      <h3 class="product-title">{{i.product_name}}</h3>
+                      
+
+                      <h4 class="product-price">Rs.{{i.price}}</h4>
+                      <h3 class="price_text" style="color:black;">{{i.quantity}} avialable</h3>
+                     <form method="POST" action="/updateMyProduct/">
+                        {%csrf_token%}
+                      {%if request.username != '' %}
+                      <input hidden name="value" value="admin"></input>
+                      <td><input hidden value='{{i.product_id}}' name="productID" id="productID"></input></td>
+                      <td><button onclick="return confirmDelete()" style="width:70px;height:20px;" name="removeOrUpdate" value="remove">REMOVE</button></td>
+                      <td><button style="width:70px;height:20px;" name="removeOrUpdate" value="update">UPDATE</button></td>
+                       {%endif%} 
+                       </form>
+                  </div> 
+              </div>
+          </div>
+{%endfor%}
+      </div>
+  </div>
+</section>{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block copyright%}{%endblock%}

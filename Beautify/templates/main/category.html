@@ -1,0 +1,39 @@
+{%extends "main/base.html"%}
+    {%block header%}
+  {% include "main/header.html" %}
+  {%endblock%}
+  {% block banner%}
+    
+    <div>
+      <h1 class="product_taital">{{val}}</h1></div>
+    {% comment %} <form>
+      <input hidden type='text' name='slug' value={{val}}> 
+    </from> {% endcomment %}
+  <div class="row">
+  {%for i in product %}
+  <div class="col-md-6 col-lg-4 col-xl-3">
+      <div id="product-4" class="single-product">
+          <div class="part-1">
+              <ul>
+                <img style='height:250px;' src='{{MEDIA_ROOT}}/{{i.product_image}}' class="card-img-top" alt="...">
+                <h5 class="card-title"></h5>
+              </ul>
+          </div>
+          <div class="part-2">
+            <h3 class="price_text" style="color:black; width:auto;">{{i.quantity}} avialable</h3>
+              <h3 class="product-title">{{i.product_name}}</h3>
+              <h4 class="product-price">Rs.{{i.price}}</h4>
+          </div>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'addToCart' i.product_id %}" class="btn btn-primary">Add To Cart</a>
+          {%endif%} 
+      </div>
+  </div>
+{%endfor%}
+ </div>
+</div>
+</div>
+</section>
+{%endblock%}
+{% block main-content%}{% endblock%}
+      

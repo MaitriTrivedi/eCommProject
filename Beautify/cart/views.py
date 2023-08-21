@@ -26,6 +26,7 @@ def addToCart(request,product_id):
     """
     Adds product to user's cart.
     """
+    # import pdb;pdb.set_trace()
     product = Products.objects.get(product_id=product_id)
     user = request.user
     cart , _ = Cart.objects.get_or_create(username=user,is_paid=False)
@@ -60,24 +61,30 @@ def updatecart(request):
         cart_items = CartItems.objects.filter(cart=context['cart'][0])
     except IndexError:
         messages.error(request,'No Items in Cart')
-        return render(request,'main/cart.html',context)
+        # return render(request,'cart/cart.html',context)
+        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return redirect("/cart/mycart/")
+    
     subtotal=0
     temp = Products.objects.get(product_id=id)
 
     # to remove
     if remove=='remove':
         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
+        print(objects_delete)
         temp.quantity=temp.quantity+objects_delete[0].quantity
         temp.save()
         objects_delete.delete()
-        return HttpResponseRedirect('cart',context)
+        # return HttpResponseRedirect('cart',context)
+        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return redirect("/cart/mycart/")
     
     # to decrease the quantity
     if sign=='-':
         try :
             cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
             cart_objects.quantity=cart_objects.quantity-1
-        except CartItems.DoesNotExist:
+        except ObjectDoesNotExist:
             pass
         temp.quantity=temp.quantity+1
         temp.save()
@@ -93,19 +100,26 @@ def updatecart(request):
             cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
             if cart_objects:
                 cart_objects.quantity=cart_objects.quantity+1
-        except CartItems.DoesNotExist:
+        except ObjectDoesNotExist:
             cart_objects.quantity = 1
         
         temp.quantity=temp.quantity-1
         temp.save()
-        cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
-        cart_objects.save()
+        if cart_objects:
+            cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
+            cart_objects.save()
+        else :
+            cart_obj = CartItems.objects.create(cart=context["cart"][0],products=temp,total_price=temp.price)
+            cart_obj.save()
+       
 
     # context = {
     #     'previous_url': request.META.get('HTTP_REFERER')
     # }
-    # return render(request, 'main/cart.html', context)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return render(request, 'cart/cart.html', context)
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return HttpResponseRedirect('cart',context)
+    return redirect("/cart/mycart/")
 
 # View cart items :
 @login_required
@@ -122,7 +136,7 @@ def cart(request):
         context['cart_items']=CartItems.objects.filter(cart=context['cart'])
     except IndexError:
         messages.error(request,'No Items in Cart')
-        return render(request,'main/order.html',context)
+        return render(request,'orders/order.html',context)
     totalQuantity=0
     totalCost=0
     for i in range(len(context['cart_items'])):
@@ -131,4 +145,4 @@ def cart(request):
     context['subtotal']=totalCost
     context['tax']=totalCost*(0.18)
     context['grandtotal']=totalCost+100+context['tax']
-    return render(request,'main/cart.html',context)
+    return render(request,'cart/cart.html',context)

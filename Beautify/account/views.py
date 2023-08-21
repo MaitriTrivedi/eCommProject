@@ -5,11 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Sellers, UserData
 from .forms import UserForm,SellerForm
 from products.models import Products
-from main.views import session
+from products.forms import ProductForm
+from main.views import session, isSeller
 # session = {'username':'','products':Products.objects.all()}
 # Create your views here.
 
@@ -34,15 +36,15 @@ def loginUser(request):
         password=request.POST.get('password')
         user=authenticate(request, username=uname, password=password)
         if user:
-            if Sellers.objects.filter(user=user).first():
+            print(Sellers.objects.get(user=user))
+            if Sellers.objects.get(user=user):
+                print("Seller")
                 login(request, user)
                 request.session['username']=uname
-                return redirect("/adminpage/")
+                return redirect("/acc/adminpage/")
             else:
                 login(request, user)
-                print(uname)
                 session['username']=uname
-                print(session['username'])
                 return redirect("/")
         else:
             messages.error(request,"Username or Password Not Valid.")
@@ -149,3 +151,124 @@ def logoutPage(request):
     """
     logout(request)
     return render(request,'main/index.html')
+
+# Home page of admin :
+@login_required
+def adminpage(request):
+    """
+    Takes seller to admin page to add, remove or update product.
+    """
+    session['username']=request.user
+    return render(request,'account/adminpage.html')
+
+
+# To add products by the seller
+@login_required
+@isSeller
+def addProduct(request):
+    """
+    Adds product by the seller.
+    """
+    context={'seller':request.user}
+    form = ProductForm()
+    return render (request=request, template_name="products/addProduct.html", context={"product_form":form,'seller':request.user})
+
+@login_required
+@isSeller
+def addProductToDB(request):
+    """
+    Saves the added product to database for further operations.
+    """
+    if request.method=='POST':
+        productform=ProductForm(request.POST,request.FILES)
+        if productform.is_valid():
+            product=productform.save(commit=False)
+            seller=Sellers.objects.filter(user=request.user).first()
+            product.seller=seller
+            product.save()
+            return redirect('/acc/viewProduct/')
+        else:
+            messages.error(request,'Product ID is already registered')
+            return redirect('/acc/addProduct/')
+    else:
+        return redirect('/acc/adminpage/')
+
+
+# To update my products :
+@login_required
+@isSeller
+def updateMyProduct(request):
+    """
+    Enables the seller to update or remove the product.
+    """
+    context={}
+    if request.method=='POST':
+        removeOrUpdate=request.POST.get('removeOrUpdate')
+        id=request.POST.get('productID')
+        admin=request.POST.get('admin')
+        context['admin']=request.user
+        context['id']=id
+        if removeOrUpdate=='remove':
+            product=Products.objects.get(product_id=id)
+            product.delete()
+        if removeOrUpdate=='update':
+            p = Products.objects.get(product_id=id)
+            product = ProductForm(instance=p)
+            context['product']=product
+            context['id']=id
+            return render(request,'products/updateproduct.html',context)
+    return redirect('/viewMyProduct/',context)
+
+
+# To view products :
+@login_required
+def viewProduct(request):
+    """
+    Shows all the products.
+    """
+    if request.POST.get('value')=='admin':
+        temp1 =User.objects.get(username=request.session['username'])
+        temp2=Sellers.objects.get(user=temp1)
+        products = Products.objects.filter(seller=temp2)
+        return render(request,'products/removeProduct.html',{'products':products})
+    else:
+        products = Products.objects.all()
+        return render(request,'products/viewProduct.html',{'products':products}) 
+
+
+# To view products for seller :
+@login_required
+@isSeller
+def viewMyProduct(request):
+    """
+    Shows all the products added by that particular seller.
+    """
+    context={}
+    try:
+        temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
+        context['products'] = Products.objects.filter(seller=temp1)
+        context['admin']=request.user
+        return render(request,'products/viewMyProduct.html',context)
+    except KeyError:
+        return redirect('/acc/login/')
+
+# To see user's profile :
+@login_required
+def myprofile(request,username):
+    """
+    Shows user profile.
+    """
+    context={}
+    user = User.objects.get(username =username)
+    try:
+        UserData.objects.get(username =user)
+        profile = UserData.objects.get(username =user)
+        context['profile']=profile
+    except ObjectDoesNotExist:
+        try:
+            profile2=Sellers.objects.get(user=user)
+            context['profile2']=profile2
+        except ObjectDoesNotExist:
+            redirect('/acc/login/')
+    context['is_edit']=False
+    return render (request=request, template_name="account/myprofile.html",context=context)

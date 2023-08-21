@@ -74,7 +74,7 @@ display: inline-block; /* Make sure the link wraps around the image and count */
 
 .cart-count {
 position: absolute;
-top: 0; /* Adjust this value based on your design */
+top: 10px; /* Adjust this value based on your design */
 right: 0; /* Adjust this value based on your design */
 background-color: redblack; /* Adding a background color for the badge */
 color: white; /* Text color for the badge */

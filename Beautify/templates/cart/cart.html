@@ -1,0 +1,129 @@
+{%extends "main/base.html"%}
+{% block title%}{%endblock title%}
+{%block style%}
+<style></style>
+{% endblock%}
+
+{%block header%}{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}
+<table>
+    <header>
+    <h1>Shopping Cart : {{request.user}}</h1>
+<br><br><br><br>
+    <div class="shopping-cart">
+    
+      <div class="column-labels">
+        <tr>
+        <td> <label class="product-image">Image</label></td> 
+        <td> <label class="product-details">Product</label></td> 
+        <td> <label class="product-details">Product Details</label></td> 
+        <td> <label class="product-price">Price</label></td> 
+        <td> <label class="product-quantity">Quantity</label></td> 
+        <td> <label class="product-removal">Remove</label></td>
+        <td> <label class="product-line-price">Total</label></td>
+        <tr>
+      </div>
+    </div>
+</header>
+
+{% for i in cart_items %} 
+<form method='POST' action='/cart/updatecart/'>
+  {% csrf_token %}
+<tr>    
+        <td><div class="product-image">
+          <img style='width:224px; height:224px;' src='{{MEDIA_ROOT}}/{{i.products.product_image}}'>
+        </div></td>
+
+        <td><div class="product-details">
+          <div class="product-title">{{i.products.product_name}}</div>
+        </div></td>
+       
+        <td><div class="product-details">
+          <div class="product-title">{{i.products.description}}</div>
+        </div></td>
+
+        <td><div class="product-price">{{i.products.price}}</div></td>
+        
+        
+          <td><div class="product-removal">
+            <input hidden type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
+            <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
+            <button class="remove-product" style='width:50px;' value='-' name='sign'>-</button>
+        </div></td>
+
+        
+        <td><div class="product-quantity">
+            <input type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
+        </div></td>
+
+        
+
+      <td><div class="product-removal">
+        <input hidden type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
+        <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
+         <button class="remove-product" style='width:50px;'  value='+'name='sign'>+</button>
+      </div></td>
+  </form>
+
+        <form method='POST' action='/cart/updatecart/'>
+            {% csrf_token %}
+        <td><div class="product-removal">
+          <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
+
+          <input hidden type="text" min="1" name='remove' value='remove' style='width:50px; text-align:center;'>
+           <button class="remove-product">
+            Remove
+          </button>
+        </div></td>
+    </form>
+
+        <td><div class="product-line-price">{{i.total_price}}</div>
+      </div></td>
+    
+     
+    </tr>
+{% endfor %}
+ </table>
+<table>
+ <form method='POST' action='{%url "checkout"%}'>
+  {%csrf_token%}
+ <div class="totals">
+    <div class="totals-item">
+      <input hidden name='subtotal' value={{subtotal}}></input>
+      <tr><td><label>Subtotal</label></td><td><div class="totals-value" id="cart-subtotal" >{{subtotal}}</div></td></tr>
+     
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Tax (18%)</label></td><td>
+        <input hidden name='tax' value={{tax}}></input>
+      <div class="totals-value" id="cart-tax" name='tax'>{{tax}}</div></td></tr>
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Shipping</label></td><td>
+        <input hidden name='shipping' value=100></input>
+      <div class="totals-value" id="cart-shipping">100</div></td></tr>
+    </div>
+    <div class="totals-item totals-item-total">
+      <tr><td><label>Grand Total</label></td><td>
+        <input hidden name='grandtotal' value={{grandtotal}}></input>
+      <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
+    </div>
+  </div>
+</table>
+<br>
+<div style='left:70%; margin-left: 50em;'>
+  <label>Coupon Code :</label>
+  <input name='coupon' placeholder='couponcode' style='height:60px;'></input>
+      <button class="checkout">Checkout</button></form>
+</div>
+<br>
+ 
+</div>
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

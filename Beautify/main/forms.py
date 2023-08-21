@@ -30,12 +30,3 @@ class SellerForm(forms.Form):
     password1= forms.CharField(max_length=50,widget=forms.PasswordInput)
     password2= forms.CharField(max_length=50,widget=forms.PasswordInput)
 
-class ProductForm(forms.ModelForm):
-    
-    class Meta:
-        model = Products
-        fields=['product_id','product_name','price','description','category','quantity','product_image']
-        widgets = {
-            'description': forms.Textarea(attrs={'rows':3,'cols':30})
-        }
-        exclude=['seller']

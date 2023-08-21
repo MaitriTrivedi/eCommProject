@@ -7,7 +7,7 @@
          <div class="row">
             <div class="col-md-6">
                <div class="about_taital_main">
-                  <form method='POST' action='/add-product-to-db/' enctype="multipart/form-data">
+                  <form method='POST' action='/acc/add-product-to-db/' enctype="multipart/form-data">
                   {%csrf_token%}
                   {% for i in product_form %}
                      <div>
