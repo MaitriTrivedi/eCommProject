@@ -71,7 +71,7 @@ h6 {
     letter-spacing: 0;
     font-weight: normal;
     position: relative;
-    padding: 0 0 10px 0;
+    padding: 10px 0 10px 0;
     font-weight: normal;
     line-height: normal;
     color: #111111;
@@ -158,7 +158,7 @@ a,
 }
 
 img {
-    /* max-width: 100%; */
+    max-width: 100%;
     height: auto;
 }
 
@@ -310,10 +310,11 @@ button {
     text-transform: uppercase;
     float: left;
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .login_text a {
-    color: #ffffff;
+    color: #000000;
 }
 
 .login_text a:hover {
@@ -325,7 +326,16 @@ button {
     padding-left: 90px;
     z-index: 2;
 }
-
+.col-md-6 {
+    border: 1px solid #AAAA; /* Example border style and color */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin : 15px 0 0 0 ;
+    padding : 15px 15px 15px 15px
+    /* Additional styles for the .single-product class */
+}
 
 /* header section end */
 
@@ -494,9 +504,9 @@ button {
 .price_text {
     font-size: 16px;
     color: #fefefd;
-    width: 42%;
+    /* width: 42%; */
     padding-top: 5px;
-    text-align: right;
+    text-align: left;
 }
 
 .seemore_bt {

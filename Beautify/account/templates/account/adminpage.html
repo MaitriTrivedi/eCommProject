@@ -1,0 +1,140 @@
+{%extends "main/base.html"%}
+
+
+{%block header%}
+      <!-- header section start -->
+      <div class="header_section">
+         <div class="container-fluid">
+            <nav class="navbar navbar-light bg-light justify-content-between">
+
+               <div id="mySidenav" class="sidenav">
+                  <a href="" class="closebtn" onclick="closeNav()">&times;</a>
+                  <a href="{%url 'index'%}">Home</a>
+                  <a href="{%url 'viewProduct'%}">Products</a>
+                  <a href="{%url 'about'%}">About</a>
+                  <a href="{%url 'contact'%}">Contact</a>
+               </div>
+               <span class="toggle_icon" onclick="openNav()"><img src="/static/images/toggle-icon.png"></span>
+               
+               <a class="logo" href="{%url 'index'%}"><img src="/static/images/logo.png"></a></a>
+               <!-- <div><form method='POST' action='/viewProduct/'>
+                  {%csrf_token%}
+                  <button>VIEW PRODUCTS</button>
+               </form></div> -->
+               <form class="form-inline ">
+                  <div class="login_text">
+                     <ul>
+                        <div class="dropdown">
+                            <li class="dropbtn"><a style="color:black;">Category</a>
+                            <div class="dropdown-content">
+                              <a href="{%url 'category' 'MAKEUP' %}" style="color:black;">Make Up</a>
+                              <a href="{%url 'category' 'HAIR' %}" style="color:black;">Hair</a>
+                              <a href="{%url 'category' 'LIPS' %}" style="color:black;">Lips</a>
+                              <a href="{%url 'category' 'EYE' %}"style="color:black;">Eye</a>
+                              <a href="{%url 'category' 'NAIL' %}"style="color:black;">Nail</a>
+                              <a href="{%url 'category' 'FOOT' %}"style="color:black;">Foot</a>
+                              <a href="{%url 'category' 'FACE' %}"style="color:black;">Face</a>
+                            
+                            </div>
+                          </div>
+                        </li>
+                       <li>
+                        {% comment %} action="action_page.php" {% endcomment %}
+                            <form class="example" action="search" method='GET'>
+                                <input type="text" placeholder="Search.." name="searchText">
+                              </form></li>
+                            <li><button><img src="/static/images/search-icon.png"></button></li>
+                  <!-- </ul> -->
+                  </div>
+                  </form>
+                  <li>
+                  <form class="form-inline">
+                  <div class="login_text">
+                     <!-- <ul> -->
+                        <!-- <li><a href="#"><img src="/static/images/user-icon.png"></a></li> -->
+                        {% if request.session.username != '' %}
+                        
+                        <div class="dropdown">
+                            <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
+                            <div class="dropdown-content">
+                              {% if request.session.username %}
+                              <a href="{% url 'myprofile' request.session.username %}"style="color:black;">Profile</a>{%endif%}
+                              {% if request.session.username %}
+                              <a href="/viewMyProduct/" style="color:black;">MyProducts</a>
+                              <a href="{% url 'logout' %}"style="color:black;">Logout</a>{%endif%}
+                            </div>
+                          </div>
+                          </li>
+                          <li>
+                            <!-- <i class="'fa" style="font-size: 24px;">&#xf07a;</i>
+                          <span class="'badge badge-warning" id="lblCartCount">{{request.user.userdata.get_cart_count}}</span>
+                          <a href="{%url 'cart'%}"><img src="/static/images/bag-icon.png"></a></li>   --> 
+                          {%endif%}
+
+                          
+
+                        
+                        <!-- <li class="link-item" id='a'><a href="#" style="color:black;">{{ session.username }}</a></li> -->
+                        
+
+                        {%if request.session.username %}
+                        Hi {{ request.session.username }}!
+                        <li class="link-item" id='a'><a href="{% url 'logout' %}" style="color:black;">Log Out</a></li>   
+                        {% endif %}
+                        <!-- <li class="link-item" id='a'><a href="#" style="color:black;">{{ session.username }}</a></li> -->
+                        {% if request.session.username == '' %}
+                         <li> <div class="login_text">
+                          <li class="link-item" id='a'><a href="/acc/login/" style="color:black;">Log In</a></li>
+                          <li class="link-item" id='a'><a href="/acc/register/" style="color:black;">Sign Up</a></li>
+                        </div></li>{% else %}{% endif %}
+
+                        </div>
+                     </ul>
+                  </div>
+                  </form>
+               </nav>
+         </div>
+      </div>
+      {%endblock%}
+{% block banner%}{%endblock%}
+{% block main-content%}
+      <div style="width: 350px; height: 350px; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0; border: 1px solid black; text-align: center;">
+         <br>
+         <br>
+         {% if request.session.username != '' %}
+      <form method='POST' action='/addProduct/'>
+         {%csrf_token%}
+         {%if request.session.username %}
+         <button style="display: inline;"float:left;>ADD PRODUCT</button>{%endif%}  
+      </form>
+      {%else%}
+      <form method='POST' action='/logout/'>
+         {%csrf_token%}
+         <button style="display: inline; float:left;">LOGOUT</button>
+      </form>
+      <br>{%endif%}
+      <form method='POST' action='/acc/login/'>
+         {%csrf_token%}
+         {%if not request.session.username %}
+         <button style="display: inline;">LOGIN</button> {%endif%}
+      </form>
+      <form method='POST' action='/adminregister/'>
+         {%csrf_token%}
+         {%if not request.session.username %}
+         <button style="display: inline;">REGISTER</button> {%endif%}
+      </form>
+      <br>
+      <form method='POST' action='/viewMyProduct/'>
+         {%csrf_token%} 
+         {%if request.session.username %}
+         <input hidden name="value" value="admin"></input>
+         <button style="display: inline;">VIEW MY PRODUCTS</button>{%endif%}
+      </form><br>
+   </div>
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

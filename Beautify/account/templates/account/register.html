@@ -15,7 +15,7 @@
                <div id='page'>
                <div class="container py-5">
 
-                  <form method='POST' action='/register-user/'>
+                  <form method='POST' action='/acc/register-user/'>
                      {%csrf_token%}
                      {{register_form.username.label}}
                      {{register_form.username}}
@@ -42,7 +42,7 @@
                      {% endif %}
                      <button float='center'>SIGN UP</button>
                   </form>
-                  <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+                  <p class="text-center">If you already have an account, <a href="/acc/login">login</a> instead.</p>
                </div>
             </div>
          </div>

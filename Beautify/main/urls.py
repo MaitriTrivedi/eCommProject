@@ -6,11 +6,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     
     # login :
-    path('login/',views.loginPage,name='login'),# user
-    path('login-user/',views.loginUser,name='login user'),# user
+    # path('login/',views.loginPage,name='login'),# user
+    # path('login-user/',views.loginUser,name='login user'),# user
 
     #logout :
-    path('logout/',views.logoutPage,name='logout'),
+    # path('logout/',views.logoutPage,name='logout'),
 
     #view products : 
     path('viewProduct/',views.viewProduct,name='viewProduct'),
@@ -22,15 +22,15 @@ urlpatterns = [
     path('about/',views.about,name='about'),
 
     # user:
-    path('cart/',views.cart,name='cart'),
+    # path('cart/',views.cart,name='cart'),
     path('view/<id>',views.view,name='view'),
-    path('updatecart/',views.updatecart,name='updatecart'),
+    # path('updatecart/',views.updatecart,name='updatecart'),
     path('updateEach/<id>',views.updateEach,name='updateEach'),
     path('checkout/',views.checkout,name='checkout'),
     path('pay/',views.pay,name='pay'),
     path('order/',views.order,name='order'),
     path('myprofile/<str:username>',views.myprofile,name='myprofile'),
-    path('addToCart/<product_id>',views.addToCart,name='addToCart'),
+    # path('addToCart/<product_id>',views.addToCart,name='addToCart'),
 
     # admin user :
     path('adminpage/',views.adminpage,name='adminpage'), # admin Home page
@@ -40,11 +40,11 @@ urlpatterns = [
 
     # working :
     path('',views.index,name='index'),
-    path('register/',views.register,name='register'),
-    path('registerAdminForm/',views.registerAdminForm,name='registerAdminForm'),
-    path('register-user/',views.registerUser,name='registerUser'),
+    # path('register/',views.register,name='register'),
+    # path('registerAdminForm/',views.registerAdminForm,name='registerAdminForm'),
+    # path('register-user/',views.registerUser,name='registerUser'),
     # path('update_cart/<int:product_id>/', views.update_cart, name='updateCart'),
-    path('adminregister/',views.adminregister,name='adminregister'),
+    # path('adminregister/',views.adminregister,name='adminregister'),
   
 ]
 

@@ -151,13 +151,13 @@ display: block;
       }
       .cart-count {
        position: absolute;
-       top: 20px;
-       right: 20px;
+       top: 22px;
+       right: 17px;
        background-color: rgb(57, 57, 57);
        color: white;
        padding: 2px 5px;
        border-radius: 60%;
-       font-size: 12px;
+       font-size: 14px;
        }
        .Cart-Container{
 width: 70%;

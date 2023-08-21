@@ -16,7 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+# import pdb;pdb.set_trace()
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('acc/',include('account.urls')),
+    path('cart/',include('cart.urls')),
+
+    # Keep this at last (as this compares in sequence from top to bottom)
     path('',include('main.urls')),
+    
+    
 ]
