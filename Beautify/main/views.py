@@ -1,5 +1,6 @@
 import math
 
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -13,11 +14,12 @@ from account.models import UserData
 from products.models import Products
 from orders.models import Order, OrderItems
 from .models import Coupon
-from .forms import UserForm, ProductForm, SellerForm
+from .forms import UserForm, SellerForm
 from django.shortcuts import redirect
 from django.urls import reverse
 
 from cart.models import Cart, CartItems
+from account.models import Sellers
 
 # decorator :
 def isSeller(function):
@@ -84,7 +86,7 @@ class Category(View):
 #         cart_items = CartItems.objects.filter(cart=context['cart'][0])
 #     except IndexError:
 #         messages.error(request,'No Items in Cart')
-#         return render(request,'main/cart.html',context)
+#         return render(request,'cart/cart.html',context)
 #     subtotal=0
 #     temp = Products.objects.get(product_id=id)
 
@@ -128,7 +130,7 @@ class Category(View):
 #     # context = {
 #     #     'previous_url': request.META.get('HTTP_REFERER')
 #     # }
-#     # return render(request, 'main/cart.html', context)
+#     # return render(request, 'cart/cart.html', context)
 #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # # View cart items :
@@ -146,7 +148,7 @@ class Category(View):
 #         context['cart_items']=CartItems.objects.filter(cart=context['cart'])
 #     except IndexError:
 #         messages.error(request,'No Items in Cart')
-#         return render(request,'main/order.html',context)
+#         return render(request,'orders/order.html',context)
 #     totalQuantity=0
 #     totalCost=0
 #     for i in range(len(context['cart_items'])):
@@ -155,7 +157,7 @@ class Category(View):
 #     context['subtotal']=totalCost
 #     context['tax']=totalCost*(0.18)
 #     context['grandtotal']=totalCost+100+context['tax']
-#     return render(request,'main/cart.html',context)
+#     return render(request,'cart/cart.html',context)
 
 # checkout :
 @login_required
@@ -222,23 +224,8 @@ def order(request):
             sum = sum + 100 + sum*(0.18)
             t.append(sum)
             context['orders'].append(t)
-    return render(request,'main/order.html',context)
+    return render(request,'orders/order.html',context)
 
-
-# To view products :
-@login_required
-def viewProduct(request):
-    """
-    Shows all the products.
-    """
-    if request.POST.get('value')=='admin':
-        temp1 =User.objects.get(username=request.session['username'])
-        temp2=Sellers.objects.get(user=temp1)
-        products = Products.objects.filter(seller=temp2)
-        return render(request,'main/removeProduct.html',{'products':products})
-    else:
-        products = Products.objects.all()
-        return render(request,'main/viewProduct.html',{'products':products}) 
 
 
 # To view product in detail :
@@ -251,79 +238,9 @@ def view(request,id):
     return render(request,'main/view.html',{'product':product})
 
 
-# To add products by the seller
-@login_required
-@isSeller
-def addProduct(request):
-    """
-    Adds product by the seller.
-    """
-    context={'seller':request.user}
-    form = ProductForm()
-    return render (request=request, template_name="main/addProduct.html", context={"product_form":form,'seller':request.user})
-
-@login_required
-@isSeller
-def addProductToDB(request):
-    """
-    Saves the added product to database for further operations.
-    """
-    if request.method=='POST':
-        productform=ProductForm(request.POST,request.FILES)
-        if productform.is_valid():
-            product=productform.save(commit=False)
-            seller=Sellers.objects.filter(user=request.user).first()
-            product.seller=seller
-            product.save()
-            return redirect('/viewProduct/')
-        else:
-            messages.error(request,'Product ID is already registered')
-            return redirect('/addProduct/')
-    else:
-        return redirect('/adminpage/')
 
 
-# To view products for seller :
-@login_required
-@isSeller
-def viewMyProduct(request):
-    """
-    Shows all the products added by that particular seller.
-    """
-    context={}
-    try:
-        temp1 =Sellers.objects.get(user=User.objects.get(username=request.session['username']))
-        context['products'] = Products.objects.filter(seller=temp1)
-        context['admin']=request.user
-        return render(request,'main/viewMyProduct.html',context)
-    except KeyError:
-        return redirect('/login/')
 
-
-# To update my products :
-@login_required
-@isSeller
-def updateMyProduct(request):
-    """
-    Enables the seller to update or remove the product.
-    """
-    context={}
-    if request.method=='POST':
-        removeOrUpdate=request.POST.get('removeOrUpdate')
-        id=request.POST.get('productID')
-        admin=request.POST.get('admin')
-        context['admin']=request.user
-        context['id']=id
-        if removeOrUpdate=='remove':
-            product=Products.objects.get(product_id=id)
-            product.delete()
-        if removeOrUpdate=='update':
-            p = Products.objects.get(product_id=id)
-            product = ProductForm(instance=p)
-            context['product']=product
-            context['id']=id
-            return render(request,'main/updateproduct.html',context)
-    return redirect('/viewMyProduct/',context)
 
 
 @login_required
@@ -349,7 +266,7 @@ def updateEach(request,id):
             return redirect('/viewMyProduct/')
     except ValueError:
         messages.warning('Productwith product ID is not valid...')
-    return render (request=request, template_name="main/updateproduct.html",context={'product':product})
+    return render (request=request, template_name="products/updateproduct.html",context={'product':product})
 
 
 # update product by seller :
@@ -378,25 +295,9 @@ def updateProduct(request):
                 return redirect('/updateproduct/')
     except ValueError:
         messages.warning('Productwith product ID {} is not valid...'.format(productID))
-    return render (request=request, template_name="main/updateproduct.html",context={'product':product})
+    return render (request=request, template_name="products/updateproduct.html",context={'product':product})
 
 
-# To see user's profile :
-@login_required
-def myprofile(request,username):
-    """
-    Shows user profile.
-    """
-    context={}
-    user = User.objects.get(username =username)
-    if UserData.objects.get(username =user):
-        profile = UserData.objects.get(username =user)
-        context['profile']=profile
-    else:
-        profile2=Sellers.objects.get(user=user)
-        context['profile2']=profile2
-    context['is_edit']=False
-    return render (request=request, template_name="main/myprofile.html",context=context)
 
 def edit_myprofile(request,username):
     """
@@ -411,16 +312,7 @@ def edit_myprofile(request,username):
         profile2=Sellers.objects.get(user=user)
         context['profile2']=profile2
     context['is_edit']=True
-    return render (request=request, template_name="main/myprofile.html",context=context)
-
-# Home page of admin :
-@login_required
-def adminpage(request):
-    """
-    Takes seller to admin page to add, remove or update product.
-    """
-    session['username']=request.user
-    return render(request,'main/adminpage.html')
+    return render (request=request, template_name="account/myprofile.html",context=context)
 
 
 # Home page of User :
@@ -434,14 +326,13 @@ def index(request):
     nSlides= n//4 + math.ceil((n/4) + (n//4))
     
     cart_count = 0
-    # try :
-    #     cart=Cart.objects.get(username=request.user)
-    #     cart_items = CartItems.objects.filter(cart=cart)
-    #     for i in cart_items :
-    #         cart_count =cart_count + i.quantity
-    # except ObjectDoesNotExist:
-    #     cart_count = 0
-    cart_count = 0
+    try :
+        cart=Cart.objects.get(username=request.user)
+        cart_items = CartItems.objects.filter(cart=cart)
+        for i in cart_items :
+            cart_count =cart_count + i.quantity
+    except ObjectDoesNotExist:
+        cart_count = 0
     print("----------------------------------------")
     print(request.user.is_authenticated)
     print("----------------------------------------")
@@ -463,3 +354,4 @@ def contact(request):
     Takes user to contact page.
     """
     return render(request,'main/contact.html')
+

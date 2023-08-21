@@ -39,7 +39,7 @@
                                             <td><h3 hidden class="product-title" value='{{i.product_id}}' name="'id"></h3></td>
                                             <td><h4 class="product-price">Rs.{{i.price}}</h4></td>
                                       
-                                        {%if session.username != '' %}
+                                            {% if request.user.is_authenticated %}
                                        <td><button onclick="return confirmDelete()" style="width:70px;height:20px;">REMOVE PRODUCT</button></td>
                                         {%endif%} 
                                    

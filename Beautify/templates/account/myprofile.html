@@ -7,7 +7,7 @@
 {% block main-content%}
 {% comment %} <form method='POST' action'/'> 
     {%csrf_token%} 
-   <input hidden type='text' name='username' value={{session.username}}> 
+   <input hidden type='text' name='username' value={{request.username}}> 
 </form> {% endcomment %}
 
 <div class="profile-page">

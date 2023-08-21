@@ -9,12 +9,12 @@ class Cart(models.Model):
 
 class CartItems(models.Model):
     cart = models.ForeignKey(Cart,on_delete=models.CASCADE,related_name='cart_items')
-    products = models.ForeignKey(Products, on_delete=models.CASCADE,null=True,blank=True)
+    products = models.ForeignKey(Products, on_delete=models.CASCADE,null=True,blank=True,related_name='cart_products')
     quantity = models.IntegerField(default=1)
-    total_price=models.FloatField(null=True)
+    total_price=models.FloatField(default=0,null=True)
 
-    def get_quantity(self,cart,products):
-        return CartItems.objects.filter(cart=cart,products=products)
+    def get_quantity(self,cart):
+        return (i.quantity for i in  CartItems.objects.filter(cart=cart))
     
     def get_total_price(self):
         pass

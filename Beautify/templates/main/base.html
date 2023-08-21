@@ -115,7 +115,7 @@
                            
                               Hi {{ request.user }}!
                               <p><a href="{% url 'logout' %}">Log Out</a></p>
-                              <!-- <li class="link-item" id='a'><a href="#" style="color:black;">{{ session.username }}</a></li> -->
+                              <!-- <li class="link-item" id='a'><a href="#" style="color:black;">{{ request.username }}</a></li> -->
                               
                            {% endif %}
                            </div>

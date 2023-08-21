@@ -1,35 +1,37 @@
-.links-container{
-    width: 100%;
-    display: flex;
-    padding: 10px 10vw;
-    justify-content: center;
-    list-style: none;
-    border-top: 1px solid #d1d1d1;
+.links-container {
+  width: 100%;
+  display: flex;
+  padding: 10px 10vw;
+  justify-content: center;
+  list-style: none;
+  border-top: 1px solid #d1d1d1;
 }
 
-.link{
-    text-transform: capitalize;
-    padding: 0 10px;
-    margin: 0 5px;
-    text-decoration: none;
-    color: #383838;
-    opacity: 0.5;
-    transition: .5s;
+.link {
+  text-transform: capitalize;
+  padding: 0 10px;
+  margin: 0 5px;
+  text-decoration: none;
+  color: #383838;
+  opacity: 0.5;
+  transition: .5s;
 }
 
-.link:hover{
-    opacity: 1;
+.link:hover {
+  opacity: 1;
 }
 
 
-#navbar{
-    display: inline;
-  }
-  #a{
-    float:left;
-    list-style-type: none; 
-  }
-  /* a {
+#navbar {
+  display: inline;
+}
+
+#a {
+  float: left;
+  list-style-type: none;
+}
+
+/* a {
     display: block;
     padding: 8px;
     background-color: #dddddd;
@@ -51,171 +53,188 @@
       background-color: transparent;
       text-decoration: underline;
     } */
-    html {
-      scroll-behavior: smooth;
-    }
-    #c{
-      float:right;
-    }
+html {
+  scroll-behavior: smooth;
+}
+
+#c {
+  float: right;
+}
 
 
-    .link-item{
-      color:black;
-  }
-  
+.link-item {
+  color: black;
+}
+
 /* Dropdown Button */
 .dropbtn {
-background-color: #eccfd5;
-color: white;
- padding: 0px;
-font-size: 16px;
-border: none;
+  background-color: #eccfd5;
+  color: white;
+  padding: 0px;
+  font-size: 16px;
+  border: none;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-position: relative;
-display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-display: none;
-position: absolute;
-background-color: #f1f1f1;
-min-width: 160px;
-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-z-index: 1;
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-color: black;
-padding: 12px 16px;
-text-decoration: none;
-display: block;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #ffffff;}
-.col-md-3 {
-          display: inline-block;
-          margin-left: -4px;
-      }
-
-      .col-md-3 {
-          width: 100%;
-          height: auto;
-      }
-
-
-
-      body .no-padding {
-          padding-left: 0;
-          padding-right: 0;
-      }
-
-      .carousel-control-prev-icon {
-          background: black no-repeat center center;
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
-      }
-
-      .carousel-control-next-icon {
-          background: black no-repeat center center;
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
-
-      }
-      body .carousel-indicators{
-      bottom:0;
-      }
-
-      .carousel-indicators .active{
-      background-color: blue;
-      }
-      .col-md-3 img {
-          width: 255px;
-          height: 355px;
-      }
-      .badge{
-       padding-left: 9px;
-       padding-right: 9px;
-       -webkit-boarder-radius:9px;
-       -moz-border-radius: 9px;
-       border-radius: 9px;
-      }
-      .cart-count {
-        position: absolute;
-        top: 22px;
-        right: 17px;
-        background-color: rgb(57, 57, 57);
-        color: white;
-        padding: 2px 5px;
-        border-radius: 60%;
-        font-size: 14px;
-       }
-
-       .part-1{
-        height: 460px;
-       }
-
-       .rounded-circle {
-        border: 1px solid #808080 !important;
-        /* border-radius: 50% !important;  */
-        width:200px;
-        height: 200px;
-    }
-    .profile-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px; /* Add spacing between the heading and the image */
-  }
-  
-  .profile-image img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 50%;
-      /* ... other styles ... */
-  }
-    .border {
-      border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
-    }
-    .Cart-Container{
-      width: 70%;
-      height: 85%;
-      background-color: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0px 25px 40px #1687d933;
-      }
-      .body{
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      }
-      #r{
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 40%;
-      display: flex;
-      justify-content: center;
-      }
-      #page{
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 100%;
+.dropdown:hover .dropbtn {
+  background-color: #ffffff;
 }
+
+.col-md-3 {
+  display: inline-block;
+  margin-left: -4px;
+}
+
+.col-md-3 {
+  width: 100%;
+  height: auto;
+}
+
+
+
+body .no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.carousel-control-prev-icon {
+  background: black no-repeat center center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
+}
+
+.carousel-control-next-icon {
+  background: black no-repeat center center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
+
+}
+
+body .carousel-indicators {
+  bottom: 0;
+}
+
+.carousel-indicators .active {
+  background-color: blue;
+}
+
+.col-md-3 img {
+  width: 255px;
+  height: 355px;
+}
+
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-boarder-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.cart-count {
+  position: absolute;
+  top: 22px;
+  right: 17px;
+  background-color: rgb(57, 57, 57);
+  color: white;
+  padding: 2px 5px;
+  border-radius: 60%;
+  font-size: 14px;
+}
+
+
+.rounded-circle {
+  border: 1px solid #808080 !important;
+  /* border-radius: 50% !important;  */
+  width: 200px;
+  height: 200px;
+}
+
+.profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  /* Add spacing between the heading and the image */
+}
+
+.profile-image img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+  /* ... other styles ... */
+}
+
+.border {
+  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+}
+
+.Cart-Container {
+  width: 70%;
+  height: 85%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 25px 40px #1687d933;
+}
+
+.body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#r {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+#page {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 .profile-info {
   display: flex-root;
   align-items: center;
@@ -227,17 +246,17 @@ display: block;
   margin-right: 10px;
 }
 
-.profile-page{
+.profile-page {
   width: 350px;
-    height: 550px;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  height: 550px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
