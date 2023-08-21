@@ -1,0 +1,89 @@
+.container-fluid {
+    display: flex;
+    margin: 10px 10px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.container-fluid .logo {
+    margin-left: 20px;
+    
+}
+.container-fluid .logo img{
+    margin-top: 10px;
+}
+.container-fluid .form-inline .login_text .dropdown {
+    position: fixed;
+}
+
+.container-fluid .header-1 {
+    width: 20%;
+    display: flex;
+}
+
+.container-fluid .header-2 {
+    display: flex;
+    align-items: center; 
+}
+.container-fluid .header-2 .nav-list{
+    display: flex;
+}
+
+.container-fluid .header-3 {
+    width: 20%;
+    display: flex;
+    flex-direction: row-reverse;
+    
+}
+
+.container-fluid .header-3 li {
+    margin: 0 10px 0 10px;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex; /* Use flexbox to align items horizontally */
+  }
+  
+  .search-li {
+    margin-right: 10px; /* Add some space between the search input and button */
+  }
+  
+  .search-button-li {
+    margin-left: 5px; /* Adjust the margin as needed */
+  }
+  
+
+  /* .menu{
+ position:relative;
+}
+.menu_label {
+ position: absolute;
+ top: 85%;
+ left: 5%;
+}
+ */
+ 
+
+
+.cart-link {
+position: relative;
+display: inline-block; /* Make sure the link wraps around the image and count */
+}
+
+.cart-count {
+position: absolute;
+top: 0; /* Adjust this value based on your design */
+right: 0; /* Adjust this value based on your design */
+background-color: redblack; /* Adding a background color for the badge */
+color: white; /* Text color for the badge */
+border-radius: 50%; /* Make the badge circular */
+padding: 2px 6px; /* Adjust padding to your preference */
+font-size: 12px; /* Adjust font size to your preference */
+}
+
+
+section.section-products h1,section.section-products h2 {
+    text-align: center;
+}

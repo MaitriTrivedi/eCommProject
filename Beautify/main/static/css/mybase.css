@@ -150,42 +150,94 @@ display: block;
        border-radius: 9px;
       }
       .cart-count {
-       position: absolute;
-       top: 20px;
-       right: 20px;
-       background-color: rgb(57, 57, 57);
-       color: white;
-       padding: 2px 5px;
-       border-radius: 60%;
-       font-size: 12px;
+        position: absolute;
+        top: 22px;
+        right: 17px;
+        background-color: rgb(57, 57, 57);
+        color: white;
+        padding: 2px 5px;
+        border-radius: 60%;
+        font-size: 14px;
        }
-       .Cart-Container{
-width: 70%;
-height: 85%;
-background-color: #ffffff;
-border-radius: 20px;
-box-shadow: 0px 25px 40px #1687d933;
+
+       .part-1{
+        height: 460px;
+       }
+
+       .rounded-circle {
+        border: 1px solid #808080 !important;
+        /* border-radius: 50% !important;  */
+        width:200px;
+        height: 200px;
+    }
+    .profile-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px; /* Add spacing between the heading and the image */
+  }
+  
+  .profile-image img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 50%;
+      /* ... other styles ... */
+  }
+    .border {
+      border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+    }
+    .Cart-Container{
+      width: 70%;
+      height: 85%;
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0px 25px 40px #1687d933;
+      }
+      .body{
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      }
+      #r{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 40%;
+      display: flex;
+      justify-content: center;
+      }
+      #page{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
 }
-.body{
-margin: 0;
-padding: 0;
-background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
+.profile-info {
+  display: flex-root;
+  align-items: center;
+  margin-top: 10px;
 }
-#r{
-display: block;
-margin-left: auto;
-margin-right: auto;
-width: 40%;
-display: flex;
-justify-content: center;
+
+.label-bold {
+  font-weight: bold;
+  margin-right: 10px;
 }
-#page{
-display: block;
-margin-left: auto;
-margin-right: auto;
-width: 100%;
+
+.profile-page{
+  width: 350px;
+    height: 550px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -11,10 +11,10 @@
                <div class="row">
                   <div class="col-sm-6">
                      <div >
-                        <h1 id='r' text-align:'center' >Log-in</h1></div>
-                        <div id='page'>
+                        <h1 id='r' text-align:'center'>Log-in</h1></div>
+                        <div id='page' class="login-form">
                         <div class="container py-5">
-                           <form method="POST" action='/login-user/'>
+                           <form method="POST" action='/acc/login-user/'>
                               {% csrf_token%}
                                  
                                  <lable>Username :</lable>
@@ -32,7 +32,7 @@
                                  <button class="btn btn-primary" type="submit">Log-in</button>
                                  {% comment %} <button>sign-up</button> {% endcomment %}
                               </form>
-                           <p class="text-center">If you already don't have an account, <a href="/register/">register</a> instead.</p>
+                           <p class="text-center">If you already don't have an account, <a href="/acc/register/">register</a> instead.</p>
                         </div>
                      </div>
                   </div>

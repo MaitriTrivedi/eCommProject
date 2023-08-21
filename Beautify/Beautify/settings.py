@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'account',
+    'cart',
+    'products',
+    'orders',
 ]
 
 
@@ -126,5 +130,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_ROOT =BASE_DIR
-LOGIN_URL = '/login/'
+LOGIN_URL = '/acc/login/'
 # MEDIA_URL = '/product/' 
