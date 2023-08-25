@@ -1,0 +1,92 @@
+{%extends "main/base.html"%}
+{% block title%}Contact{%endblock title%}
+{%block header%}{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}
+<div class="container">
+
+<div class="checkout_page">
+<div class='mydiv'>
+  <div class="mydiv_header">
+    <h1 style='text-align:left;'>Bill Summary</h1>
+  </div>
+<table>
+
+<div class="totals">
+    <div class="totals-item">
+      <input hidden name='subtotal' value={{subtotal}}></input>
+      <tr><td style='width:100px;'><label>Subtotal :</label></td><td><div class="totals-value" id="cart-subtotal" >{{subtotal}}</div></td></tr>
+     
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Tax (18%) :</label></td><td>
+        <input hidden name='tax' value={{tax}}></input>
+      <div class="totals-value" id="cart-tax" name='tax'>{{tax}}</div></td></tr>
+    </div>
+    <div class="totals-item">
+      <tr><td><label>Shipping :</label></td><td>
+        <input hidden name='shipping' value=100></input>
+      <div class="totals-value" id="cart-shipping">100</div></td></tr>
+    </div>
+    <div class="totals-item totals-item-total">
+      <tr><td><label>Grand Total : </label></td><td>
+        <input hidden id='grandtotal' name='grandtotal' value={{grandtotal}}></input>
+      <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
+    </div>
+  </div>
+  <div class="totals-item totals-item-total">
+  <tr><td>
+</table>
+
+</div>
+
+<div class="mydiv_right">
+ <div id="paypal-button-container"></div>
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AWUmJFMjM53_eqPOSYznAuDZMYuhScqHI31f4IbJ5CPMfvyzq6WrAJ7HsW2EyFFWLuj5G2Gi1ISDzTHb&currency=USD"></script>
+
+    <script>
+        paypal.Buttons({
+
+            style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',
+                label: 'paypal',
+            },
+            // Call your server to set up the transaction
+            createOrder: function(data, actions) {
+              var grandtotalInput = document.getElementById("grandtotal");
+                return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: grandtotalInput.value
+                    }
+                }]
+            });
+            },
+
+           // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    var btn = document.getElementById("checkout");
+                    btn.label="Paid"
+                });
+            }
+
+            }).render('#paypal-button-container');
+    </script>
+  
+</div>
+</div>
+</div>
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-zhuyogp(mjri(h4iv8zv2lm2q2na%7^!j3j#pg67g+se13^$a7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = [ "192.168.24.89", "192.168.24.204", "127.0.0.1"]
 
-
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cart',
     'products',
     'orders',
+    'paypal.standard.ipn',
 ]
 
 
@@ -132,3 +133,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_ROOT =BASE_DIR
 LOGIN_URL = '/acc/login/'
 # MEDIA_URL = '/product/' 
+
+PAYPAL_TEST = True
+# settings.py
+MIME_TYPES = {
+    'js': 'application/javascript',
+}

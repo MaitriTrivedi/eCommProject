@@ -1,0 +1,80 @@
+{%extends "main/base.html"%}
+{% block title%}{%endblock title%}
+{%block style%}
+{% endblock%}
+{%block header%}
+{% include "main/header.html" %}
+{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}
+<section class="h-100 gradient-custom">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Wishlist - {{cart_item_quantity}} items</h5>
+            </div>
+            <div class="card-body">
+            {% if cart_items %}
+            {% for i in cart_items %} 
+            
+           
+              <!-- Single item -->
+              <div class="row">
+                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                  <!-- Image -->
+                  <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                    <img src="{{MEDIA_ROOT}}/{{i.products.product_image}}"
+                      class="w-100" alt="{{i.products.product_name}}" />
+                    <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                    </a>
+                  </div>
+                  <!-- Image -->
+                </div>
+  
+                <div class="col-md-8">
+                  <!-- Data -->
+                  <p><strong>{{i.products.product_name}}</strong></p>
+                  <p>Rs. {{i.products.price}}</p>
+                  <form method='POST' action='/products/updatewishlist/'>
+                    {% csrf_token %}
+                    <input hidden type="text" value={{i.quantity}} min="1" name='quantity'>
+                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id'>
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px">
+                    
+                    <button class="btn btn-primary px-3 ms-2"  value='remove' name='remove'>
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+                  <!-- Data -->
+                </div>
+  
+             
+  
+                </div>
+              </div>
+              <!-- Single item -->
+          
+              {% endfor %}
+              {% else %}
+                <h1>No products in Wishlist</h1>
+               {% endif %}
+              <hr class="my-4" />
+            </div>
+         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

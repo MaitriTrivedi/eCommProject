@@ -1,0 +1,27 @@
+{%extends "main/base.html"%}
+
+{% block title%}{%endblock title%}
+{%block header%}{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}<form method='POST' action='{%url "order"%}'>
+    {%csrf_token%}
+   <div class="totals">
+      <div class="totals-item">
+        <h1>{{request.user}}</h1>
+        {% comment %} <tr><td><label>Grand Total</label></td><td> {% endcomment %}
+          <input hidden name='grandtotal' value={{grandtotal}}></input>
+          <input hidden name='username' value={{request.user}}></input>
+        <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
+      </div>
+    </div>
+  </table>
+        <button class="pay">Pay</button></form>
+  <br>
+  {{ form.render }}
+  </div>{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

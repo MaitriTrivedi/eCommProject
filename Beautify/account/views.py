@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-
 from .models import Sellers, UserData
 from .forms import UserForm,SellerForm
 from products.models import Products
@@ -36,13 +35,12 @@ def loginUser(request):
         password=request.POST.get('password')
         user=authenticate(request, username=uname, password=password)
         if user:
-            print(Sellers.objects.get(user=user))
-            if Sellers.objects.get(user=user):
-                print("Seller")
+            try :
+                Sellers.objects.get(user=user)
                 login(request, user)
                 request.session['username']=uname
                 return redirect("/acc/adminpage/")
-            else:
+            except ObjectDoesNotExist:
                 login(request, user)
                 session['username']=uname
                 return redirect("/")

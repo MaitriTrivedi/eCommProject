@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+# from products.models import Products
 # from main.models import CartItems
 
 # Create your models here.
@@ -24,3 +25,5 @@ class UserData(models.Model):
     #     for i in user:
     #         count=count+i.quantity
     #     return count
+
+

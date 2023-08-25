@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import Sellers
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -24,4 +25,17 @@ class Products(models.Model):
     product_image = models.ImageField(upload_to='product',null=True,default = None)
     
     def __int__(self):
-        return self.product_id
+        return self.product_name
+    
+class Wishlist(models.Model):
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Wishlist')
+
+    def __str__(self):
+        return f"Wishlist for {self.username}"
+
+class WishlistItems(models.Model):
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name='wishlist_items')
+    products = models.ForeignKey(Products, on_delete=models.CASCADE, null=True, blank=True, related_name='wishlist_products')
+
+    def __str__(self):
+        return f"{self.products} - {self.wishlist.username}"

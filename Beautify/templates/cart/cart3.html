@@ -1,0 +1,107 @@
+{%extends "main/base.html"%}
+{% block title%}{%endblock title%}
+{%block style%}
+{% endblock%}
+
+{%block header%}{% endblock%}
+{%block banner%}{% endblock%}
+{% block main-content%}
+<div class="container cart">
+  <div class="cart-header">
+      <h1 >Shopping Cart : {{request.user}}</h1>
+  </div>
+  
+  {% if cart_items %}
+    <div class="cart-body">
+      {% for i in cart_items %} 
+        <form method='POST' action='/cart/updatecart/'>
+          {% csrf_token %}
+          <div class="cart-item">
+            <div class="left-cart-body">
+              <img class="product-image" src='{{MEDIA_ROOT}}/{{i.products.product_image}}'>
+            </div>
+            <div class="right-cart-body">
+              <div class="product-details">
+                <div class="title">{{i.products.product_name}}</div>
+                <div class="price"> {{i.products.price}}</div>
+                
+                <div class="quantity">
+                  <div class="product-removal">
+                    <input hidden type="text" value={{i.quantity}} min="1" name='quantity'>
+                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id'>
+                    <button class="remove-product" value='-' name='sign'>-</button>
+                  </div>
+                  <div class="product-removal">
+                    <p type="text" min="1" name='quantity'>{{i.quantity}}</p> 
+                  </div>
+                  <div class="product-removal">
+                    <input hidden type="text" value={{i.quantity}} min="1" name='quantity'>
+                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id' >
+                    <button class="remove-product" value='+'name='sign'>+</button>
+                  </div>
+                  <div class="product-removal">
+                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id'>
+                    <input hidden type="text" min="1" name='remove' value='remove' >
+                    <button class="remove-product">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <div class="product-line-price">{{i.total_price}}</div>
+              </div> 
+            </div>
+          </div>
+              </form>
+            {% endfor %}
+          
+    </div>
+</div> 
+
+    
+
+  <table>
+  <form method='POST' action='{%url "checkout"%}'>
+    {%csrf_token%}
+  <div class="totals">
+      <div class="totals-item">
+        <input hidden name='subtotal' value={{subtotal}}></input>
+        <tr><td><label>Subtotal</label></td><td><div class="totals-value" id="cart-subtotal" >{{subtotal}}</div></td></tr>
+      
+      </div>
+      <div class="totals-item">
+        <tr><td><label>Tax (18%)</label></td><td>
+          <input hidden name='tax' value={{tax}}></input>
+        <div class="totals-value" id="cart-tax" name='tax'>{{tax}}</div></td></tr>
+      </div>
+      <div class="totals-item">
+        <tr><td><label>Shipping</label></td><td>
+          <input hidden name='shipping' value=100></input>
+        <div class="totals-value" id="cart-shipping">100</div></td></tr>
+      </div>
+      <div class="totals-item totals-item-total">
+        <tr><td><label>Grand Total</label></td><td>
+          <input hidden name='grandtotal' value={{grandtotal}}></input>
+        <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
+      </div>
+    </div>
+  </table>
+<br>
+<div>
+  <label>Coupon Code :</label>
+  <input name='coupon' placeholder='couponcode'></input>
+      <button class="checkout">Checkout</button></form>
+</div>
+<br>
+{% else %}
+<h1>No products in cart</h1>
+
+{% endif %}
+</div>
+</div>
+{% endblock%}
+{%block footer%}{% endblock%}
+{%block contact%}{% endblock%}
+{% block customer%}{% endblock%}
+{% block about%}{% endblock%}
+{%block last%}{% endblock%}
+{%block copyright%}{% endblock%}

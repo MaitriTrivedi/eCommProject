@@ -3,6 +3,7 @@
 {%block header%}{% endblock%}
 {%block banner%}{% endblock%}
 {% block main-content%}
+
 <div class="banner_section layout_padding">
    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
@@ -10,32 +11,41 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-6">
-                     <div >
-                        <h1 id='r' text-align:'center'>Log-in</h1></div>
-                        <div id='page' class="login-form">
-                        <div class="container py-5">
+                     <div class="login-box">
+
+                        <div class="login-header">
+                        <h2>Login</h2>
+                        </div>
+
+                        <div class="login-form">
                            <form method="POST" action='/acc/login-user/'>
                               {% csrf_token%}
-                                 
-                                 <lable>Username :</lable>
-                                 <br><input type="text" placeholder="username" name='username' id='username'></input>
-                                 <br>  <br>
+                           <div class="user-box">
+                              <label>Username</label>
+                              <input type="text" name='username' id='username' required="">
+                              
+                           </div>
+                           <div class="user-box">
+                              <label>Password</label>
+                              <input type="password" id='password' name='password' required="">
+                           </div> 
+                        </div>
+
+                        <div class="login-submit">
+                           {% if messages %}
+                              {% for message in messages %}
+                              <p ><div class="alert alert-{{ message.tags }}" style='color:red;'>{{ message }}</div></p>
+                              {% endfor %}
+                              {% endif %}
                            
-                                 <lable>Password :</lable><br><input type="Password" placeholder="enter password" id='password' name='password'></input>
-                                 <br>
-                                 {% if messages %}
-                                 {% for message in messages %}
-                                 <p ><div class="alert alert-{{ message.tags }}" style='color:red;'>{{ message }}</div></p>
-                                 {% endfor %}
-                                 {% endif %}
-                                 <br>
-                                 <button class="btn btn-primary" type="submit">Log-in</button>
-                                 {% comment %} <button>sign-up</button> {% endcomment %}
-                              </form>
+                           <button>LOGIN</button>
                            <p class="text-center">If you already don't have an account, <a href="/acc/register/">register</a> instead.</p>
+                          
+                           </form>
                         </div>
                      </div>
                   </div>
+                    
                   <div class="col-sm-6">
                      <div class="banner_img"><img src="/static/images/banner-img.png"></div>
                      </div>

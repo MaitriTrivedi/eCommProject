@@ -3,6 +3,7 @@
 {%block header%}{% endblock%}
 {%block banner%}{% endblock%}
 {% block main-content%}
+<div class="register">
 <div class="banner_section layout_padding">
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 <div class="carousel-inner">
@@ -10,44 +11,68 @@
    <div class="container">
       <div class="row">
          <div class="col-sm-6">
-            <div >
-               <h1 id='r' text-align:'center' >UserSignUp</h1></div>
-               <div id='page'>
-               <div class="container py-5">
+            <div class="login-box">
 
-                  <form method='POST' action='/acc/register-user/'>
-                     {%csrf_token%}
-                     {{register_form.username.label}}
+               <div class="login-header">
+               <h2>UserSignUp</h2>
+               </div>
+
+               <div class="login-form">
+                  <form method="POST" action='/acc/register-user/'>
+                     {% csrf_token%}
+                  <div class="user-box">
+                     <label>{{register_form.username.label}}</label>
                      {{register_form.username}}
-                     <br>
-                     {{register_form.email.label}}
+                  </div>
+
+                  <div class="user-box">
+                     <label>{{register_form.email.label}}</label>
                      {{register_form.email}}
-                     <br>
-                     {{register_form.address.label}}
+                  </div>
+
+                  <div class="user-box">
+                     <label>{{register_form.address.label}}</label>
                      {{register_form.address}}
-                     <br>  
-                     {{register_form.contact.label}}
+                  </div>
+
+                  <div class="user-box">
+                     <label>{{register_form.contact.label}}</label>
                      {{register_form.contact}}
-                     <br>
-                     {{register_form.password1.label}}
+                  </div>
+
+                  <div class="user-box">
+                     <label>{{register_form.password1.label}}</label>
                      {{register_form.password1}}
-                     <br>
-                     {{register_form.password2.label}}
+                  </div>
+                  
+                  <div class="user-box">
+                     <label>{{register_form.password2.label}}</label>
                      {{register_form.password2}}
-                     <br>
-                     {% if messages %}
+                  </div>
+
+                  <div class="user-box">
+                     <label>Password</label>
+                     <input type="password" id='password' name='password' required="">
+                  </div> 
+               </div>
+
+               <div class="login-submit">
+                  {% if messages %}
                      {% for message in messages %}
-                     <h6 style="color:red;"><div class="alert alert-{{ message.tags }}">{{ message }}</div></h6>
+                     <p ><div class="alert alert-{{ message.tags }}" style='color:red;'>{{ message }}</div></p>
                      {% endfor %}
                      {% endif %}
-                     <button float='center'>SIGN UP</button>
+                  
+                  <button>REGISTER</button>
+                  <p class="text-center">If you already don't have an account, <a href="/acc/login/">login</a> instead.</p>
+                 
                   </form>
-                  <p class="text-center">If you already have an account, <a href="/acc/login">login</a> instead.</p>
                </div>
             </div>
          </div>
-         <div class="col-sm-6">
-            <div class="banner_img"><img src="/static/images/banner-img.png"></div>
+           
+         <div class="col-sm-6 ">
+            <div class="banner_img "><img src="/static/images/banner-img.png"></div>
             </div>
       </div>
    </div>

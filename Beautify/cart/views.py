@@ -67,7 +67,9 @@ def updatecart(request):
     
     subtotal=0
     temp = Products.objects.get(product_id=id)
-
+    print("-------------------------------------")
+    print(remove)
+    print("-------------------------------------")
     # to remove
     if remove=='remove':
         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
@@ -145,4 +147,5 @@ def cart(request):
     context['subtotal']=totalCost
     context['tax']=totalCost*(0.18)
     context['grandtotal']=totalCost+100+context['tax']
+    context['cart_item_quantity'] = len(context["cart_items"])
     return render(request,'cart/cart.html',context)
