@@ -21,7 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('acc/',include('account.urls')),
     path('cart/',include('cart.urls')),
-
+    path('payment/',include('payment.urls')),
+    path('products/',include('products.urls')),
+    
     # Keep this at last (as this compares in sequence from top to bottom)
     path('',include('main.urls')),
     

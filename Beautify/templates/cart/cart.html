@@ -1,125 +1,165 @@
 {%extends "main/base.html"%}
 {% block title%}{%endblock title%}
 {%block style%}
-<style></style>
 {% endblock%}
-
-{%block header%}{% endblock%}
+{%block header%}
+{% include "main/header.html" %}
+{% endblock%}
 {%block banner%}{% endblock%}
 {% block main-content%}
-<table>
-    <header>
-    <h1>Shopping Cart : {{request.user}}</h1>
-<br><br><br><br>
-    <div class="shopping-cart">
-    
-      <div class="column-labels">
-        <tr>
-        <td> <label class="product-image">Image</label></td> 
-        <td> <label class="product-details">Product</label></td> 
-        <td> <label class="product-details">Product Details</label></td> 
-        <td> <label class="product-price">Price</label></td> 
-        <td> <label class="product-quantity">Quantity</label></td> 
-        <td> <label class="product-removal">Remove</label></td>
-        <td> <label class="product-line-price">Total</label></td>
-        <tr>
+<section class="h-100 gradient-custom">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Cart - {{cart_item_quantity}} items</h5>
+            </div>
+            <div class="card-body">
+            {% if cart_items %}
+            {% for i in cart_items %} 
+            
+           
+              <!-- Single item -->
+              <div class="row">
+                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                  <!-- Image -->
+                  <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                    <img src="{{MEDIA_ROOT}}/{{i.products.product_image}}"
+                      class="w-100" alt="{{i.products.product_name}}" />
+                    <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                    </a>
+                  </div>
+                  <!-- Image -->
+                </div>
+  
+                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                  <!-- Data -->
+                  <p><strong>{{i.products.product_name}}</strong></p>
+                  <p>Rs. {{i.products.price}}</p>
+                  
+                  <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                    title="Move to the wish list">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <!-- Data -->
+                </div>
+  
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                  <form method='POST' action='/cart/updatecart/'>
+                    {% csrf_token %}
+                    <input hidden type="text" value={{i.quantity}} min="1" name='quantity'>
+                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id'>
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px">
+                    <button class="btn btn-primary px-3 me-2" value='-' name='sign'>
+                      <i class="fas fa-minus"></i>
+                    </button>
+  
+                    <div class="form-outline">
+                      <input id="form1" min="0" name="quantity" value="{{i.quantity}}" type="number" class="form-control" />
+                      <label class="form-label" for="form1">Quantity</label>
+                    </div>
+  
+                    <button class="btn btn-primary px-3 ms-2"  value='+' name='sign'>
+                      <i class="fas fa-plus"></i>
+                    </button>
+
+                    <button class="btn btn-primary px-3 ms-2"  value='remove' name='remove'>
+                        <i class="fas fa-trash"></i>
+                    </button>
+
+                  </div>
+                  <!-- Quantity -->
+  
+                  <!-- Price -->
+                  <p class="text-start text-md-center">
+                    <strong>Rs. {{i.total_price}}</strong>
+                  </p>
+                  <!-- Price -->
+                </div>
+              </div>
+              <!-- Single item -->
+            </form>
+              {% endfor %}
+              {% else %}
+                <h1>No products in cart</h1>
+               {% endif %}
+              <hr class="my-4" />
+            </div>
+          </div>
+          {% if cart_items %}
+          <div class="card mb-4">
+            <div class="card-body">
+              <p><strong>Expected shipping delivery</strong></p>
+              <p class="mb-0">12.10.2020 - 14.10.2020</p>
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body">
+              <p><strong>We accept</strong></p>
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                alt="Visa" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                alt="American Express" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                alt="Mastercard" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+                alt="PayPal acceptance mark" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Summary</h5>
+            </div>
+            <div class="card-body">
+            <form method='POST' action='{%url "checkout"%}'>
+            {%csrf_token%}
+              <ul class="list-group list-group-flush">
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                  Products
+                  <span>Rs. {{subtotal}}</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                  Tax
+                  <span>Rs. {{tax}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  Shipping
+                  <span>Rs. 100</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                  <div>
+                    <strong>Total amount</strong>
+                  </div>
+                  <span><strong>Rs. {{grandtotal}}</strong></span>
+                </li>
+              </ul>
+              <input hidden name='tax' value={{tax}}></input>
+              <input hidden name='shipping' value=100></input>
+              <input hidden name='subtotal' value={{subtotal}}></input>
+              <input hidden name='grandtotal' value={{grandtotal}}></input>
+              <button type="submit" class="btn btn-primary btn-lg btn-block">
+                Go to checkout
+              </button>
+            </form>
+            {% endif %}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-</header>
-
-{% for i in cart_items %} 
-<form method='POST' action='/cart/updatecart/'>
-  {% csrf_token %}
-<tr>    
-        <td><div class="product-image">
-          <img style='width:224px; height:224px;' src='{{MEDIA_ROOT}}/{{i.products.product_image}}'>
-        </div></td>
-
-        <td><div class="product-details">
-          <div class="product-title">{{i.products.product_name}}</div>
-        </div></td>
-       
-        <td><div class="product-details">
-          <div class="product-title">{{i.products.description}}</div>
-        </div></td>
-
-        <td><div class="product-price">{{i.products.price}}</div></td>
-        
-        
-          <td><div class="product-removal">
-            <input hidden type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
-            <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
-            <button class="remove-product" style='width:50px;' value='-' name='sign'>-</button>
-        </div></td>
-
-        
-        <td><div class="product-quantity">
-            <input type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
-        </div></td>
-
-        
-
-      <td><div class="product-removal">
-        <input hidden type="text" value={{i.quantity}} min="1" name='quantity' style='width:50px; text-align:center;'>
-        <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
-         <button class="remove-product" style='width:50px;'  value='+'name='sign'>+</button>
-      </div></td>
-  </form>
-
-        <form method='POST' action='/cart/updatecart/'>
-            {% csrf_token %}
-        <td><div class="product-removal">
-          <input hidden type="text" value={{i.products.product_id}} min="1" name='id' style='width:50px; text-align:center;'>
-
-          <input hidden type="text" min="1" name='remove' value='remove' style='width:50px; text-align:center;'>
-           <button class="remove-product">
-            Remove
-          </button>
-        </div></td>
-    </form>
-
-        <td><div class="product-line-price">{{i.total_price}}</div>
-      </div></td>
-    
-     
-    </tr>
-{% endfor %}
- </table>
-<table>
- <form method='POST' action='{%url "checkout"%}'>
-  {%csrf_token%}
- <div class="totals">
-    <div class="totals-item">
-      <input hidden name='subtotal' value={{subtotal}}></input>
-      <tr><td><label>Subtotal</label></td><td><div class="totals-value" id="cart-subtotal" >{{subtotal}}</div></td></tr>
-     
-    </div>
-    <div class="totals-item">
-      <tr><td><label>Tax (18%)</label></td><td>
-        <input hidden name='tax' value={{tax}}></input>
-      <div class="totals-value" id="cart-tax" name='tax'>{{tax}}</div></td></tr>
-    </div>
-    <div class="totals-item">
-      <tr><td><label>Shipping</label></td><td>
-        <input hidden name='shipping' value=100></input>
-      <div class="totals-value" id="cart-shipping">100</div></td></tr>
-    </div>
-    <div class="totals-item totals-item-total">
-      <tr><td><label>Grand Total</label></td><td>
-        <input hidden name='grandtotal' value={{grandtotal}}></input>
-      <div class="totals-value" id="cart-total">{{grandtotal}}</div></td></tr>
-    </div>
-  </div>
-</table>
-<br>
-<div style='left:70%; margin-left: 50em;'>
-  <label>Coupon Code :</label>
-  <input name='coupon' placeholder='couponcode' style='height:60px;'></input>
-      <button class="checkout">Checkout</button></form>
-</div>
-<br>
- 
-</div>
+  </section>
 {% endblock%}
 {%block footer%}{% endblock%}
 {%block contact%}{% endblock%}

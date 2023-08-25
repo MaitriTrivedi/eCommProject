@@ -159,48 +159,6 @@ class Category(View):
 #     context['grandtotal']=totalCost+100+context['tax']
 #     return render(request,'cart/cart.html',context)
 
-# checkout :
-@login_required
-def checkout(request):
-    """
-    Takes the user to the payment page.
-    """
-    context = {}
-    if request.method=='POST':
-        context['subtotal']=request.POST.get('subtotal')
-        context['tax']=request.POST.get('tax')
-        context['grandtotal']=request.POST.get('grandtotal')
-        context['shipping']=request.POST.get('shipping')
-        if request.POST.get('coupon'):
-            context['couponcode']=request.POST.get('coupon')
-            coupon_obj = Coupon.objects.filter(couponcode=context['couponcode']).first()
-            if coupon_obj!=None:
-                discount_price= coupon_obj.discount
-                if int(float( context['grandtotal'] )) > ( coupon_obj.min_amount ) and coupon_obj.is_expired==False:
-                    context['grandtotal']=int(float(context['grandtotal']))-discount_price
-    return render(request,'main/checkout.html',context)
-
-# pay :
-@login_required
-def pay(request):
-    """
-    Starts the payment process.
-    """
-    context={}
-    if request.method=='POST':
-        current_user_cart=Cart.objects.filter(username=request.user).first()
-        user_cart_items=CartItems.objects.filter(cart=current_user_cart)
-        order=Order.objects.create(username=request.user)
-        order.save()
-        for i in user_cart_items:
-            temp=OrderItems.objects.create(order=order,products=i.products,quantity=i.quantity,total_price=i.total_price)
-            temp.save()
-        current_user_cart.delete()
-        context['subtotal']=request.POST.get('subtotal')
-        context['tax']=request.POST.get('tax')
-        context['grandtotal']=request.POST.get('grandtotal')
-        context['shipping']=request.POST.get('shipping')
-    return render(request,'main/pay.html',context)
 
 # Check order history :
 @login_required
@@ -326,16 +284,14 @@ def index(request):
     nSlides= n//4 + math.ceil((n/4) + (n//4))
     
     cart_count = 0
-    try :
+    if not request.user.is_anonymous :
+        print(request.user)
         cart=Cart.objects.get(username=request.user)
         cart_items = CartItems.objects.filter(cart=cart)
         for i in cart_items :
             cart_count =cart_count + i.quantity
-    except ObjectDoesNotExist:
+    else :
         cart_count = 0
-    print("----------------------------------------")
-    print(request.user.is_authenticated)
-    print("----------------------------------------")
     params={'no_of_slides':nSlides, 'range':range(1,nSlides), 'products': products,'session':session,'cart_count':cart_count}
     return render(request,'main/index.html',params)
 

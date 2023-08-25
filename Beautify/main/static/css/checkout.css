@@ -1,20 +1,33 @@
-#mydiv {
-    position:absolute;
-    top: 30%;
-    left: 50%;
-    width:30em;
-    height:18em;
-    margin-top: -9em; /*set to a negative number 1/2 of your height*/
-    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+.checkout_page .mydiv {
+    position:left;
+    width:50%;
     border: 1px solid #ccc;
     background-color: #f3f3f3;
+    /* height: 100%; */
 }
-#checkout{
-    position:absolute;
-    top: 80%;
-    left: 65%;
-    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+.checkout_page .mydiv #checkout{
+  
     margin-left: -15em; /*set to a negative number 1/2 of your width*/
     border: 1px solid #ccc;
+    background-color: #000;
+}
+
+.checkout_page .mydiv_right{
+    position:right;
+    width:50%;  
+    border: 1px solid #ccc;
     background-color: #f3f3f3;
+    /* height: 100%; */
+}
+
+.checkout_page{
+    display: flex;
+    height: 100%;
+    margin: 30px 30px;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.checkout_page .mydiv_header{
+    width: 100%;
 }

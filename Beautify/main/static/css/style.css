@@ -231,9 +231,10 @@ button {
 .header_section {
     width: 100%;
     float: left;
-    background-color: #fef4ec;
+    background-color: white;
     height: auto;
     background-size: 100%;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .bg-light {
