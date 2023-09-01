@@ -14,6 +14,7 @@ from .models import Cart, CartItems
 from products.models import Products
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.http import JsonResponse
 # from main.views import session
 
 # session = {'username':'','products':Products.objects.all()}
@@ -49,79 +50,110 @@ def addToCart(request,product_id):
 
 # Update cart :
 @login_required
-def updatecart(request):
-    """
-    Increase , decrease quantity of a particular product and removes a particular product.
-    """
-    sign = request.POST.get('sign')
-    id=request.POST.get('id')
-    remove = request.POST.get('remove')
-    context = {'cart':Cart.objects.filter(is_paid=False,username=request.user),'products':[],'cart_items':[],'length':0,'items':'','price':[],'subtotal':0}
-    try :
-        cart_items = CartItems.objects.filter(cart=context['cart'][0])
-    except IndexError:
-        messages.error(request,'No Items in Cart')
-        # return render(request,'cart/cart.html',context)
-        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        return redirect("/cart/mycart/")
-    
-    subtotal=0
-    temp = Products.objects.get(product_id=id)
-    print("-------------------------------------")
-    print(remove)
-    print("-------------------------------------")
-    # to remove
-    if remove=='remove':
-        objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
-        print(objects_delete)
-        temp.quantity=temp.quantity+objects_delete[0].quantity
-        temp.save()
-        objects_delete.delete()
-        # return HttpResponseRedirect('cart',context)
-        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        return redirect("/cart/mycart/")
-    
-    # to decrease the quantity
-    if sign=='-':
-        try :
-            cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
-            cart_objects.quantity=cart_objects.quantity-1
-        except ObjectDoesNotExist:
-            pass
-        temp.quantity=temp.quantity+1
-        temp.save()
-        cart_objects.total_price=cart_objects.total_price-(cart_objects.products.price)
-        if cart_objects.quantity==0:
-            cart_objects.delete()
-        else:
-            cart_objects.save()
+def update_cart(request):
+    if request.method == "POST" :#and request.is_ajax():
+        # Get the data from the AJAX request
+        product_id = request.POST.get("product_id")
+        action = request.POST.get("action")
 
-    # to increase the quantity
-    if sign=='+':
-        try :
-            cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
-            if cart_objects:
-                cart_objects.quantity=cart_objects.quantity+1
-        except ObjectDoesNotExist:
-            cart_objects.quantity = 1
+        cart = Cart.objects.get(username=request.user)
+        product = Products.objects.get(product_id=product_id)
+        cart_item = CartItems.objects.get(cart=cart,products=product)
         
-        temp.quantity=temp.quantity-1
-        temp.save()
-        if cart_objects:
-            cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
-            cart_objects.save()
-        else :
-            cart_obj = CartItems.objects.create(cart=context["cart"][0],products=temp,total_price=temp.price)
-            cart_obj.save()
+        data = {}
+
+        # product = get_object_or_404(Products, id=product_id)
+        if action == "+":
+            cart_item.quantity += 1
+            cart_item.save()
+            data["quantity"]=cart_item.quantity
+        elif action == "remove":
+            cart_item.delete()
+            data["quantity"]=0
+        elif action == "-":
+            cart_item.quantity -= 1
+            cart_item.save()
+            data["quantity"]=cart_item.quantity
+        
+        return JsonResponse(data)
+    
+    # Handle other HTTP methods or non-AJAX requests here
+    return HttpResponseBadRequest("Bad Request")
+
+
+# def updatecart(request):
+#     """
+#     Increase , decrease quantity of a particular product and removes a particular product.
+#     """
+#     sign = request.POST.get('sign')
+#     id=request.POST.get('id')
+#     remove = request.POST.get('remove')
+#     context = {'cart':Cart.objects.filter(is_paid=False,username=request.user),'products':[],'cart_items':[],'length':0,'items':'','price':[],'subtotal':0}
+#     try :
+#         cart_items = CartItems.objects.filter(cart=context['cart'][0])
+#     except IndexError:
+#         messages.error(request,'No Items in Cart')
+#         # return render(request,'cart/cart.html',context)
+#         # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+#         return redirect("/cart/mycart/")
+    
+#     subtotal=0
+#     temp = Products.objects.get(product_id=id)
+#     print("-------------------------------------")
+#     print(remove)
+#     print("-------------------------------------")
+#     # to remove
+#     if remove=='remove':
+#         objects_delete=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp)
+#         print(objects_delete)
+#         temp.quantity=temp.quantity+objects_delete[0].quantity
+#         temp.save()
+#         objects_delete.delete()
+#         # return HttpResponseRedirect('cart',context)
+#         # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+#         return redirect("/cart/mycart/")
+    
+#     # to decrease the quantity
+#     if sign=='-':
+#         try :
+#             cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
+#             cart_objects.quantity=cart_objects.quantity-1
+#         except ObjectDoesNotExist:
+#             pass
+#         temp.quantity=temp.quantity+1
+#         temp.save()
+#         cart_objects.total_price=cart_objects.total_price-(cart_objects.products.price)
+#         if cart_objects.quantity==0:
+#             cart_objects.delete()
+#         else:
+#             cart_objects.save()
+
+#     # to increase the quantity
+#     if sign=='+':
+#         try :
+#             cart_objects=CartItems.objects.filter(cart=context['cart'][0]).filter(products_id=temp).first()
+#             if cart_objects:
+#                 cart_objects.quantity=cart_objects.quantity+1
+#         except ObjectDoesNotExist:
+#             cart_objects.quantity = 1
+        
+#         temp.quantity=temp.quantity-1
+#         temp.save()
+#         if cart_objects:
+#             cart_objects.total_price=cart_objects.total_price+(cart_objects.products.price)
+#             cart_objects.save()
+#         else :
+#             cart_obj = CartItems.objects.create(cart=context["cart"][0],products=temp,total_price=temp.price)
+#             cart_obj.save()
        
 
-    # context = {
-    #     'previous_url': request.META.get('HTTP_REFERER')
-    # }
-    # return render(request, 'cart/cart.html', context)
-    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    # return HttpResponseRedirect('cart',context)
-    return redirect("/cart/mycart/")
+#     # context = {
+#     #     'previous_url': request.META.get('HTTP_REFERER')
+#     # }
+#     # return render(request, 'cart/cart.html', context)
+#     # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+#     # return HttpResponseRedirect('cart',context)
+#     return redirect("/cart/mycart/")
 
 # View cart items :
 @login_required

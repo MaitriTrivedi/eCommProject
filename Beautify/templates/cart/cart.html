@@ -47,41 +47,37 @@
                 </div>
   
                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                  <form method='POST' action='/cart/updatecart/'>
-                    {% csrf_token %}
+                    <input hidden type="text" value="update" name='action'>
                     <input hidden type="text" value={{i.quantity}} min="1" name='quantity'>
-                    <input hidden type="text" value={{i.products.product_id}} min="1" name='id'>
+                    <input hidden type="text" value={{i.products.product_id}} name='id'>
                   <!-- Quantity -->
+                 
                   <div class="d-flex mb-4" style="max-width: 300px">
-                    <button class="btn btn-primary px-3 me-2" value='-' name='sign'>
-                      <i class="fas fa-minus"></i>
+                    <button class="update_cart btn btn-primary px-3 me-2" data-product-id="{{ i.products.product_id }}" data-action="-" >
+                        <i class="fas fa-minus"></i>
                     </button>
-  
                     <div class="form-outline">
-                      <input id="form1" min="0" name="quantity" value="{{i.quantity}}" type="number" class="form-control" />
-                      <label class="form-label" for="form1">Quantity</label>
+                        <input  id="quantity"  id="form1" min="0" name="quantity" value="{{ i.quantity }}" type="number" class="form-control"/>
+                        <label class="form-label" for="form1">Quantity</label>
                     </div>
-  
-                    <button class="btn btn-primary px-3 ms-2"  value='+' name='sign'>
-                      <i class="fas fa-plus"></i>
+                    <button class="update_cart btn btn-primary px-3 ms-2" data-product-id="{{ i.products.product_id }}" data-action="+">
+                        <i class="fas fa-plus"></i>
                     </button>
-
-                    <button class="btn btn-primary px-3 ms-2"  value='remove' name='remove'>
+                    <button class="update_cart btn btn-primary px-3 ms-2" data-product-id="{{ i.products.product_id }}" data-action="remove">
                         <i class="fas fa-trash"></i>
                     </button>
-
                   </div>
+
                   <!-- Quantity -->
   
                   <!-- Price -->
-                  <p class="text-start text-md-center">
+                  <p id="subtotal" class="text-start text-md-center">
                     <strong>Rs. {{i.total_price}}</strong>
                   </p>
                   <!-- Price -->
                 </div>
               </div>
               <!-- Single item -->
-            </form>
               {% endfor %}
               {% else %}
                 <h1>No products in cart</h1>
@@ -161,7 +157,55 @@
     </div>
   </section>
 {% endblock%}
-{%block footer%}{% endblock%}
+{%block footer%}
+<script>
+$(document).ready(function() {
+    $('.update_cart').click(function() {
+      console.log("Hii 1");
+        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+        var button = $(this);
+        var product_id = button.data('product-id');
+        var action = button.data('action');
+        console.log("Hii 2");
+        refreshContent(product_id, action, csrfToken, button); // Pass the clicked button to the function
+    });
+
+    function refreshContent(product_id, action, csrfToken, button) {
+      console.log("Hii 3");
+        $.ajax({
+            url: '{% url "updatecart" %}',
+            type: 'POST',
+            data: {
+                product_id: product_id,
+                action: action,
+                csrfmiddlewaretoken: csrfToken
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Update the content on the page
+                $('#content-container').html(data.content);
+                
+                // Select the quantity input element relative to the clicked button
+                var quantityInput = button.closest('.row').find('input[name="quantity"]');
+                // var subtotal = button.closest('.row').find('#subtotal');
+                
+                if(data.quantity==0){
+                  button.closest('.row').remove();
+                }
+                else{
+                quantityInput.val(data.quantity);
+                // subtotal.find('strong').text(data.subtotal);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('Error:', errorThrown);
+            }
+        });
+    }
+});
+
+</script>
+{% endblock%}
 {%block contact%}{% endblock%}
 {% block customer%}{% endblock%}
 {% block about%}{% endblock%}
