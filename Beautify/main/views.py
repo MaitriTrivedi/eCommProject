@@ -160,30 +160,6 @@ class Category(View):
 #     return render(request,'cart/cart.html',context)
 
 
-# Check order history :
-@login_required
-def order(request):
-    """
-    Shows the order history.
-    """
-    context={'orders':[]}
-    context['grandtotal']=[]
-    order=Order.objects.filter(username=request.user)
-    for i in order :
-        t=[]
-        temp = OrderItems.objects.filter(order=i)
-        if len(temp)>0:
-            t.append(i)
-            t.append(temp)
-            
-            sum=0
-            for j in temp:
-                sum=sum+(j.quantity*j.products.price)
-            sum = sum + 100 + sum*(0.18)
-            t.append(sum)
-            context['orders'].append(t)
-    return render(request,'orders/order.html',context)
-
 
 
 # To view product in detail :

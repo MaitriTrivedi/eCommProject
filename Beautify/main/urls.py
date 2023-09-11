@@ -10,8 +10,6 @@ urlpatterns = [
     path('view/<id>',views.view,name='view'),
     path('updateEach/<id>',views.updateEach,name='updateEach'),
     
-    
-    path('order/',views.order,name='order'),
     path('',views.index,name='index'),
 ]   
 

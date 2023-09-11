@@ -35,6 +35,7 @@ def addToCart(request,product_id):
     if CartItems.objects.filter(cart=cart,products=product):
         temp=CartItems.objects.filter(cart=cart,products=product).first()
         temp.quantity = temp.quantity + 1
+        temp.total_price= temp.quantity * temp.price
         product.quantity=product.quantity-1
         product.save()
         temp.total_price= temp.quantity * product.price
@@ -65,15 +66,20 @@ def update_cart(request):
         # product = get_object_or_404(Products, id=product_id)
         if action == "+":
             cart_item.quantity += 1
+            cart_item.total_price=cart_item.quantity * cart_item.products.price
             cart_item.save()
             data["quantity"]=cart_item.quantity
+            data["subtotal"]=cart_item.quantity * cart_item.products.price
         elif action == "remove":
             cart_item.delete()
             data["quantity"]=0
+            data["subtotal"]=0
         elif action == "-":
             cart_item.quantity -= 1
+            cart_item.total_price=cart_item.quantity * cart_item.products.price
             cart_item.save()
             data["quantity"]=cart_item.quantity
+            data["subtotal"]=cart_item.quantity * cart_item.products.price
         
         return JsonResponse(data)
     

@@ -19,7 +19,7 @@
             {% if cart_items %}
             {% for i in cart_items %} 
             
-           
+            {% if i.quantity != 0 %}
               <!-- Single item -->
               <div class="row">
                 <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
@@ -77,7 +77,9 @@
                   <!-- Price -->
                 </div>
               </div>
+              {% endif %}
               <!-- Single item -->
+              
               {% endfor %}
               {% else %}
                 <h1>No products in cart</h1>
@@ -122,23 +124,23 @@
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                   Products
-                  <span>Rs. {{subtotal}}</span>
+                  <span id="final_subtotal" name='subtotal'>Rs. {{subtotal}}</span>
                 </li>
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                   Tax
-                  <span>Rs. {{tax}}</span>
+                  <span id="tax"  name='tax'>Rs. {{tax}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                   Shipping
-                  <span>Rs. 100</span>
+                  <span name='shipping'>Rs. 100</span>
                 </li>
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                   <div>
                     <strong>Total amount</strong>
                   </div>
-                  <span><strong>Rs. {{grandtotal}}</strong></span>
+                  <span><strong id="grandtotal" name='grandtotal'>Rs. {{grandtotal}}</strong></span>
                 </li>
               </ul>
               <input hidden name='tax' value={{tax}}></input>
@@ -187,14 +189,23 @@ $(document).ready(function() {
                 
                 // Select the quantity input element relative to the clicked button
                 var quantityInput = button.closest('.row').find('input[name="quantity"]');
-                // var subtotal = button.closest('.row').find('#subtotal');
+                var subtotal = button.closest('.row').find('#subtotal');
+                
+                var temp = $("#final_subtotal");
+                temp.text("Rs. " + data.subtotal);
+
+                var tax = $("#tax");
+                tax.text("Rs. " + (data.subtotal)*0.18);
+
+                var grandtotal = $("#grandtotal");
+                grandtotal.text("Rs. " + ((data.subtotal * 0.18) + data.subtotal + 100));
                 
                 if(data.quantity==0){
                   button.closest('.row').remove();
                 }
                 else{
                 quantityInput.val(data.quantity);
-                // subtotal.find('strong').text(data.subtotal);
+                subtotal.find('strong').text("Rs. "+data.subtotal);
                 }
             },
             error: function(xhr, textStatus, errorThrown) {

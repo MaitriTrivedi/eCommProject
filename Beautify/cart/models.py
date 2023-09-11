@@ -4,7 +4,7 @@ from products.models import Products
 
 # Create your models here.
 class Cart(models.Model):
-    username=models.ForeignKey(User,on_delete=models.CASCADE,related_name='carts')
+    username=models.ForeignKey(User,on_delete=models.CASCADE,related_name='carts',unique=True)
     is_paid=models.BooleanField(default=False)
 
 class CartItems(models.Model):

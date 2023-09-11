@@ -8,13 +8,13 @@
 
 <h1>Your Orders :</h1>
 {% if messages %}
-                     {% for message in messages %}
-                     <h3><div class="alert alert-{{ message.tags }}">{{ message }}</div></h3>
-                     {% endfor %}
-                     {% endif %}
+{% for message in messages %}
+<h3><div class="alert alert-{{ message.tags }}">{{ message }}</div></h3>
+{% endfor %}
+{% endif %}
 {% for order in orders %} 
 {% comment %} {%for item in order%} {% endcomment %}
-<table>
+<table class="order_table">
   <header>
   <h1>Your Order : {{order.0.order_id}}</h1>
 <br><br><br><br>

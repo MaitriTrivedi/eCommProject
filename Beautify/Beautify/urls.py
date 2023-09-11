@@ -23,6 +23,7 @@ urlpatterns = [
     path('cart/',include('cart.urls')),
     path('payment/',include('payment.urls')),
     path('products/',include('products.urls')),
+    path('orders/',include('orders.urls')),
     
     # Keep this at last (as this compares in sequence from top to bottom)
     path('',include('main.urls')),

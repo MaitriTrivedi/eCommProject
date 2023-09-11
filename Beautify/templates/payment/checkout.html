@@ -71,13 +71,41 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     // Show a success message to the buyer
+                    Orders();
                     alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                    var btn = document.getElementById("checkout");
-                    btn.label="Paid"
+                    // var btn = document.getElementById("checkout");
+                    // btn.label="Paid" 
+                    
+                    
+                    // return_view()
                 });
-            }
+            },
+
+            onCancel(data) {
+                // Show a cancel page, or return to cart
+                window.location.href = '{% url "cancel_view" %}';
+              }
 
             }).render('#paypal-button-container');
+
+           
+          
+          // return page after payment
+          function Orders() {
+            $.ajax({
+            url: '{% url "addOrder" %}',
+            type: 'GET',
+            data: {
+            },
+            dataType: 'json',
+                  success: function(data) {
+                    window.location.href = '{% url "return_view" %}';
+                  },
+                  error: function(xhr, textStatus, errorThrown) {
+                      console.log('Error:', errorThrown);
+                  }
+              });
+          }
     </script>
   
 </div>

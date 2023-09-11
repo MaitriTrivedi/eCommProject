@@ -480,3 +480,11 @@ align-items: center;
 .header-3 .fas{
   font-weight: normal;
 }
+
+
+/*Order page */
+
+.order_table{
+  padding: 20px 20px;
+  margin: 20px 20px;;
+}

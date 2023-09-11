@@ -257,7 +257,7 @@ def myprofile(request,username):
     Shows user profile.
     """
     context={}
-    user = User.objects.get(username =username)
+    user = User.objects.get(username=username)
     try:
         UserData.objects.get(username =user)
         profile = UserData.objects.get(username =user)
