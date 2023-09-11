@@ -20,6 +20,9 @@ from django.urls import reverse
 
 from cart.models import Cart, CartItems
 from account.models import Sellers
+from django.http import JsonResponse
+from django.core import serializers
+
 
 # decorator :
 def isSeller(function):
@@ -44,6 +47,14 @@ class Category(View):
         product = Products.objects.filter(category=val)
         return render(request,'main/category.html',locals())
 
+def search_view(request):
+    search_text = request.GET.get('searchText', '')
+    # Perform the search logic, e.g., filter the model based on the search text
+    results = Products.objects.filter(product_name__icontains=search_text)
+    
+    # Serialize the results to JSON
+    data = serializers.serialize('json', results)    
+    return JsonResponse({'results': data}, safe=False)
 
 # # CART :
 # # Add product to cart :

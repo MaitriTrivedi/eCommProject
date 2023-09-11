@@ -197,6 +197,7 @@
       </div>
       {% endblock %}
       <!-- banner section end -->
+      <div id="search-results"></div>
     {% block main-content %}
     hiiiiiiiiiiiiiii
     <div id="filteredProductsContainer"></div>
@@ -395,5 +396,52 @@
       <script src="/static/js/gijgo.js" type="text/javascript"></script>
       <script src="/static/js/myscript.js" type="text/javascript"></script>
       <script type="text/javascript" src="search.js"></script>
+      
+      <script> $(document).ready(function() {
+         $('#search-form').on('submit', function(event) {
+             event.preventDefault();
+             alert("HIII");;
+             search();
+         });
+ 
+         function search() {
+          
+             var searchText = $('#searchText').val();
+             $.ajax({
+                 url: '{% url "search_view" %}',
+                 type: 'GET',
+                 data: { searchText: searchText },
+                 dataType: 'json',
+                 success: function(data) {
+                     displayResults(data.results);
+                 },
+                 error: function(xhr, textStatus, errorThrown) {
+                     console.log('Error:', errorThrown);
+                 }
+             });
+         }
+ 
+         function displayResults(results) {
+            alert("HIII");
+            var resultsContainer = $('#search-results');
+            resultsContainer.empty();
+
+            // Parse the JSON data
+            var parsedResults = JSON.parse(results);
+
+            if (parsedResults.length === 0) {
+               resultsContainer.html('<p>No results found.</p>');
+            } else {
+               for (var i = 0; i < parsedResults.length; i++) {
+                     var result = parsedResults[i].fields;  // Access the 'fields' property
+                     var resultHtml = '<p>Name: ' + result.product_name + '</p>';
+                     resultHtml += '<p>Description: ' + result.price + '</p>';
+                     resultsContainer.append(resultHtml);
+               }
+            }
+         }
+
+     });</script>
+     {% block Javascript %}{% endblock %}
    </body>
 </html>
