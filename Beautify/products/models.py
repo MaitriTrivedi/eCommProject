@@ -25,7 +25,7 @@ class Products(models.Model):
     product_image = models.ImageField(upload_to='product',null=True,default = None)
     
     def __int__(self):
-        return self.product_name
+        return self.product_id
     
 class Wishlist(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Wishlist')
@@ -39,3 +39,4 @@ class WishlistItems(models.Model):
 
     def __str__(self):
         return f"{self.products} - {self.wishlist.username}"
+

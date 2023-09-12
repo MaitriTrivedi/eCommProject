@@ -51,9 +51,8 @@ def search_view(request):
     search_text = request.GET.get('searchText', '')
     # Perform the search logic, e.g., filter the model based on the search text
     results = Products.objects.filter(product_name__icontains=search_text)
-    
     # Serialize the results to JSON
-    data = serializers.serialize('json', results)    
+    data = serializers.serialize('json', results, fields=('product_id', 'product_name', 'price', 'description', 'category', 'quantity', 'product_image'))    
     return JsonResponse({'results': data}, safe=False)
 
 # # CART :

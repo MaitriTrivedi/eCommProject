@@ -143,10 +143,10 @@
                   <span><strong id="grandtotal" name='grandtotal'>Rs. {{grandtotal}}</strong></span>
                 </li>
               </ul>
-              <input hidden name='tax' value={{tax}}></input>
+              <input hidden name='tax' id="tax2" value={{tax}}></input>
               <input hidden name='shipping' value=100></input>
-              <input hidden name='subtotal' value={{subtotal}}></input>
-              <input hidden name='grandtotal' value={{grandtotal}}></input>
+              <input hidden name='subtotal' id="final_subtotal2" value={{subtotal}}></input>
+              <input hidden name='grandtotal' id="grandtotal2" value={{grandtotal}}></input>
               <button type="submit" class="btn btn-primary btn-lg btn-block">
                 Go to checkout
               </button>
@@ -191,6 +191,14 @@ $(document).ready(function() {
                 var quantityInput = button.closest('.row').find('input[name="quantity"]');
                 var subtotal = button.closest('.row').find('#subtotal');
                 
+                if(data.quantity==0){
+                  button.closest('.row').remove();
+                }
+                else{
+                quantityInput.val(data.quantity);
+                subtotal.find('strong').text("Rs. "+data.subtotal);
+                }
+
                 var temp = $("#final_subtotal");
                 temp.text("Rs. " + data.subtotal);
 
@@ -200,13 +208,16 @@ $(document).ready(function() {
                 var grandtotal = $("#grandtotal");
                 grandtotal.text("Rs. " + ((data.subtotal * 0.18) + data.subtotal + 100));
                 
-                if(data.quantity==0){
-                  button.closest('.row').remove();
-                }
-                else{
-                quantityInput.val(data.quantity);
-                subtotal.find('strong').text("Rs. "+data.subtotal);
-                }
+                // var temp2 = $("#final_subtotal2");
+                // temp2.val(data.subtotal);
+
+                // var tax2 = $("#tax2");
+                // tax2.val((data.subtotal)*0.18);
+
+                // var grandtotal2 = $("#grandtotal2");
+                // grandtotal2.val(((data.subtotal * 0.18) + data.subtotal + 100));
+
+                
             },
             error: function(xhr, textStatus, errorThrown) {
                 console.log('Error:', errorThrown);
