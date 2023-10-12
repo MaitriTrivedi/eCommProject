@@ -5,11 +5,8 @@
 {%endblock%}
 {% block banner%}{%endblock%}
 {% block main-content%}
-{% comment %} <form method='POST' action'/'> 
+<form method='POST' action'/'> 
     {%csrf_token%} 
-   <input hidden type='text' name='username' value={{request.username}}> 
-</form> {% endcomment %}
-
 <div class="profile-page">
    <h6 class="customer_taital">My Profile</h6>
    {%if profile and not is_edit%}
@@ -17,35 +14,35 @@
          <img src="{{MEDIA_ROOT}}/{{profile.profile_image}}" class="rounded-circle border" >
       </div>
       <div class="profile-info">
-
-         <label class="label-bold">Username :</label>{{profile.username}}
+         <label class="label-bold">Username :</label>
+         <input value="{{profile.username}}"></input>
          <br>
-         <label  class="label-bold">Email :</label>
-         {{profile.email}}
+         <label  class="label-bold" aria-placeholder="">Email :</label>
+         <input value="{{profile.email}}"></input>
          <br>
          <label  class="label-bold">Address :</label>
-         {{profile.address}}
+         <input value="{{profile.address}}"></input>
          <br>
          <label  class="label-bold">Contact :</label>
-         {{profile.contact}}
+         <input value="{{profile.contact}}"></input>
          {%else%}
          <label  class="label-bold">Username :</label>
-         {{profile2.user}}
+         <input value="{{profile.user}}"></input>
          <br>
          <label  class="label-bold">Company Name :</label>
-         {{profile2.company_name}}
+         <input value="{{profile.company_name}}"></input>
          <br>
          <label  class="label-bold">Address :</label>
-         {{profile2.address}}
+         <input value="{{profile2.address}}"></input>
          <br>
          <label  class="label-bold">Contact :</label>
-         {{profile2.phone}}
+         <input value="{{profile2.phone}}"></input>
          <br>
          {% endif %}
          </div>
          <!-- <form method='POST' action='/editProfile/'> -->
          <!-- <input hidden name="profile" value="profile.username"></input> -->
-         <a href="{% url 'editProfile' request.user %}"> Edit </a>
+         <a href="{% url 'editProfileSave' request.user %}"><button> Save </button></a>
          </form>
       </div>
  

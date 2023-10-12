@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'products',
     'orders',
     'paypal.standard.ipn',
+    'folders',
 ]
 
 

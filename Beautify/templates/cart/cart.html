@@ -13,7 +13,7 @@
         <div class="col-md-8">
           <div class="card mb-4">
             <div class="card-header py-3">
-              <h5 class="mb-0">Cart - {{cart_item_quantity}} items</h5>
+              <h5 class="mb-0">Cart - <span id="cart-item-quantity">{{cart_item_quantity}}</span> items</h5>
             </div>
             <div class="card-body">
             {% if cart_items %}
@@ -81,20 +81,21 @@
               <!-- Single item -->
               
               {% endfor %}
+              <div id="noProduct">
               {% else %}
+              
                 <h1>No products in cart</h1>
-               {% endif %}
-              <hr class="my-4" />
-            </div>
+               {% endif %}</div>
+          </div>
           </div>
           {% if cart_items %}
-          <div class="card mb-4">
+          <div class="card mb-4 hideBlock">
             <div class="card-body">
               <p><strong>Expected shipping delivery</strong></p>
               <p class="mb-0">12.10.2020 - 14.10.2020</p>
             </div>
           </div>
-          <div class="card mb-4 mb-lg-0">
+          <div class="card mb-4 mb-lg-0 hideBlock">
             <div class="card-body">
               <p><strong>We accept</strong></p>
               <img class="me-2" width="45px"
@@ -112,7 +113,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 hideBlock">
           <div class="card mb-4">
             <div class="card-header py-3">
               <h5 class="mb-0">Summary</h5>
@@ -193,6 +194,14 @@ $(document).ready(function() {
                 
                 if(data.quantity==0){
                   button.closest('.row').remove();
+                  $("#cart-item-quantity").text(0);
+                  var elements = document.getElementsByClassName("hideBlock");
+                  console.log(elements)
+                  for (var i = 0; i < elements.length; i++) {
+                        elements[i].style.display = "none";
+                    }
+                  var noProduct = document.getElementById("noProduct")
+                  noProduct.innerHTML = "<h1>No products in cart</h1>";
                 }
                 else{
                 quantityInput.val(data.quantity);

@@ -29,4 +29,6 @@ urlpatterns = [
     path('viewMyProduct/',views.viewMyProduct,name='viewMyProduct'),
 
     path('myprofile/<str:username>',views.myprofile,name='myprofile'),
+    path('myprofile/edit/<str:username>',views.editProfile,name='editProfile'),
+    path('myprofile/edit_save/<str:username>',views.editProfileSave,name='editProfileSave')
 ]

@@ -24,6 +24,7 @@ urlpatterns = [
     path('payment/',include('payment.urls')),
     path('products/',include('products.urls')),
     path('orders/',include('orders.urls')),
+    path('folders/',include('folders.urls')),
     
     # Keep this at last (as this compares in sequence from top to bottom)
     path('',include('main.urls')),

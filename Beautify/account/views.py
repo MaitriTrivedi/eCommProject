@@ -257,6 +257,51 @@ def myprofile(request,username):
     Shows user profile.
     """
     context={}
+    print("====================")
+    print(username)
+    user = User.objects.get(username=username)
+    try:
+        UserData.objects.get(username =user)
+        profile = UserData.objects.get(username =user)
+        context['profile']=profile
+    except ObjectDoesNotExist:
+        try:
+            profile2=Sellers.objects.get(user=user)
+            context['profile2']=profile2
+        except ObjectDoesNotExist:
+            redirect('/acc/login/')
+    context['is_edit']=False
+    return render (request=request, template_name="account/myprofile.html",context=context)
+
+@login_required
+def editProfile(request,username):
+    """
+    Shows user profile.
+    """
+    context={}
+    print("====================")
+    print(username)
+    
+    try:
+        user = User.objects.get(username=username)
+        UserData.objects.get(username =user)
+        profile = UserData.objects.get(username =user)
+        context['profile']=profile
+    except ObjectDoesNotExist:
+        try:
+            user = User.objects.get(username=username)
+            profile2=Sellers.objects.get(user=user)
+            context['profile2']=profile2
+        except ObjectDoesNotExist:
+            redirect('/acc/login/')
+    context['is_edit']=False
+    return render (request=request, template_name="account/edit_profile.html",context=context)
+
+def editProfileSave(request,username):
+    """
+    Shows user profile.
+    """
+    context={}
     user = User.objects.get(username=username)
     try:
         UserData.objects.get(username =user)
