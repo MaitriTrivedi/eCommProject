@@ -43,8 +43,6 @@
         
         <div class="header-3">
           {% if request.user.is_authenticated %}    
-           
-
             <li>Hi {{ request.user }}!</li>
             <li>
               <a href="{% url 'cart' %}" class="cart-link">
