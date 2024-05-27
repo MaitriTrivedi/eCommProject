@@ -1,3 +1,4 @@
+{% load custom_tags %}
 <div class="header_section">
     <div class="container-fluid">
         <div class="header-1">
@@ -15,15 +16,12 @@
             <div class="form-inline login_text">
               <ul class="nav-list">
                 <li class="dropdown dropbtn">
+                  {% categories as choices %}
                   <a >Category</a>
                   <div class="dropdown-content">
-                    <a href="{% url 'category' 'MAKEUP' %}">Make Up</a>
-                    <a href="{% url 'category' 'HAIR' %}">Hair</a>
-                    <a href="{% url 'category' 'LIPS' %}">Lips</a>
-                    <a href="{% url 'category' 'EYE' %}">Eye</a>
-                    <a href="{% url 'category' 'NAIL' %}">Nail</a>
-                    <a href="{% url 'category' 'FOOT' %}">Foot</a>
-                    <a href="{% url 'category' 'FACE' %}">Face</a>
+                    {% for value, label in choices %}
+                    <a href="{% url 'category' value %}">{{value}}</a>
+                    {% endfor %}
                  </div>
                 </li>
         

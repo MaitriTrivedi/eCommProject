@@ -173,7 +173,7 @@ def search_view(request):
 
 
 # To view product in detail :
-@login_required
+# @login_required
 def view(request,id):
     """
     Shows the particular product in detail.
@@ -281,6 +281,14 @@ def index(request):
     params={'no_of_slides':nSlides, 'range':range(1,nSlides), 'products': products,'session':session,'cart_count':cart_count}
     return render(request,'main/index.html',params)
 
+def cart_count(request):
+    cart_count = 0
+    if not request.user.is_anonymous :
+        cart=Cart.objects.get(username=request.user)
+        cart_items = CartItems.objects.filter(cart=cart)
+        for i in cart_items :
+            cart_count = cart_count + i.quantity
+    return cart_count
 
 # About page of the site :
 def about(request):
