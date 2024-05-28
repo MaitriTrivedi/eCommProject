@@ -84,6 +84,7 @@ def update_cart(request):
                 cart_item.save()
                 data["quantity"]=cart_item.quantity
                 data["subtotal"]=cart_item.quantity * cart_item.products.price
+        data["cart_quantity"] = CartItems.objects.filter(cart=cart).count()
         
         return JsonResponse(data)
     
