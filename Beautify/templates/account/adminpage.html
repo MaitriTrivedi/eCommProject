@@ -1,31 +1,38 @@
 {%extends "main/base.html"%}
 
 
-{%block header%}
-{% include "main/header.html" %}
-{%endblock%}
 
 {% block banner%}{%endblock%}
-{% block main-content%}
-      <div >
-         {% if request.user.is_authenticated %}
-      <form method='POST' action='/acc/addProduct/'>
-         {%csrf_token%}
-         <button style="display: inline;"float:left;>ADD PRODUCT</button>
-      </form>
-      <form method='POST' action='/acc/adminregister/'>
-         {%csrf_token%}
-         <button style="display: inline;">REGISTER</button>
-      </form>
-      <form method='POST' action='/acc/viewMyProduct/'>
-         {%csrf_token%} 
-         <input hidden name="value" value="admin"></input>
-         <button style="display: inline;">VIEW MY PRODUCTS</button>
-      </form><br>
-      {%endif%}
-   </div>
+{% block main-content %}
+<div class="container admin-buttons mt-5">
+    {% if request.user.is_authenticated %}
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3 col-md-6 col-lg-4 col-xl-3">
+         <h3>CLICK TO ADD A NEW PRODUCT :</h3>
+            <form method='POST' action='/acc/addProduct/'>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-block">ADD PRODUCT</button>
+            </form>
+        </div>
+        <div class="col-md-4 mb-3 col-md-6 col-lg-4 col-xl-3">
+         <h3>CLICK TO ADD A NEW PRODUCT :</h3>
+            <form method='POST' action='/acc/adminregister/'>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-block">REGISTER</button>
+            </form>
+        </div>
+        <div class="col-md-4 mb-3 col-md-6 col-lg-4 col-xl-3">
+         <h3>CLICK TO SEE YOUR PRODUCTS :</h3>
+            <form method='POST' action='/acc/viewMyProduct/'>
+                {% csrf_token %}
+                <input hidden name="value" value="admin">
+                <button type="submit" class="btn btn-success btn-block">VIEW MY PRODUCTS</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endblock%}
-{%block footer%}{% endblock%}
 {%block contact%}{% endblock%}
 {% block customer%}{% endblock%}
 {% block about%}{% endblock%}

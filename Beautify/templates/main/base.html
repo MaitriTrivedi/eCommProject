@@ -1,4 +1,5 @@
 {% load custom_tags %}
+{% load custom_tags2 %}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -55,6 +56,11 @@
       {% include 'main/header.html' %}
       {% endblock %}
       <!-- header section end -->
+      <!-- banner section end -->
+      <div class="section-products">
+         <div class="container">
+      <div id="search-results" class="row">
+      </div></div></div>
       <!-- banner section start -->
       {% block banner %}
       <div class="banner_section layout_padding">
@@ -120,11 +126,8 @@
          </div>
       </div>
       {% endblock %}
-      <!-- banner section end -->
-      <div id="search-results" class="row">
-      </div>
+      
     {% block main-content %}
-    hiiiiiiiiiiiiiii
     <div id="filteredProductsContainer"></div>
   {% endblock %}
     {% block about %}
@@ -295,102 +298,37 @@
 
             // Parse the JSON data
             var parsedResults = JSON.parse(results);
-
+            var searchHeader = '<h1>Search Results : </h1>'
             if (parsedResults.length === 0) {
-               resultsContainer.html('<p>No results found.</p>');
+               resultsContainer.append(searchHeader);
+               resultsContainer.append('<h2>No results found.</h2>');
             } else {
+               
+               resultsContainer.append(searchHeader);
                for (var i = 0; i < parsedResults.length; i++) {
-                     var result = parsedResults[i].fields;  // Access the 'fields' property
-                     var resultHtml = '<p>Name: ' + result.product_name + '</p>';
-                     resultHtml += '<p>Description: ' + result.product_id + '</p>';
-                    
-
-                     // Create a div element
-                     var productDiv = document.createElement("div");
-                     productDiv.className = "col-md-6 col-lg-4 col-xl-3";
-
-
-                     // Create an anchor element for the "View" link
-                     var viewLink = document.createElement("a");
-                     viewLink.href = "{% url 'view' " + result.product_id + " %}";
-
-                     // Create the main product container
-                     var productContainer = document.createElement("div");
-                     productContainer.id = "product-4";
-                     productContainer.className = "single-product";
-
-                     // Create the "part-1" div
-                     var part1Div = document.createElement("div");
-                     part1Div.className = "part-1";
-
-                     // Create an unordered list
-                     var ul = document.createElement("ul");
-
-                     // Add an image
-                     var img = document.createElement("img");
-                     img.style.height = "250px";
-                     img.src = "{{ MEDIA_ROOT }}/{{ result.product_image }}";
-                     img.className = "card-img-top";
-                     img.alt = "...";
-
-                     // Add quantity, product name, and price
-                     var quantityElement = document.createElement("h5");
-                     quantityElement.className = "card-title";
-                     quantityElement.textContent = result.quantity + " available";
-
-                     var productNameElement = document.createElement("h3");
-                     productNameElement.className = "product-title";
-                     productNameElement.textContent = result.product_name ;
-
-                     var priceElement = document.createElement("h4");
-                     priceElement.className = "product-title";
-                     priceElement.textContent = "Rs."+ result.price ;
-
-                     // Append elements to the DOM hierarchy
-                     ul.appendChild(img);
-                     ul.appendChild(quantityElement);
-                     ul.appendChild(productNameElement);
-                     ul.appendChild(priceElement);
-
-                     part1Div.appendChild(ul);
-
-                     // Add "Add To Cart" and "Add to Wishlist" buttons (if user is authenticated)
-                     // {% if request.user.is_authenticated %}
-
-                     var productId = result.product_id
-                     var addToCartUrl = '{% url "addToCart" 0 %}'.replace('0', productId);
-
-                     var addToCartButton = document.createElement("a");
-                     addToCartButton.href = addToCartUrl;
-                     addToCartButton.className = "btn btn-primary";
-                     addToCartButton.textContent = "Add To Cart";
-
-                     var addToWishlistButton = document.createElement("a");
-                     addToWishlistButton.href = "{% url 'add_to_wishlist' " + i.product_id + " %}";
-                     addToWishlistButton.className = "btn btn-primary";
-                     addToWishlistButton.innerHTML = '<i class="fas fa-heart"></i>';
-
-                     productContainer.appendChild(addToCartButton);
-                     productContainer.appendChild(addToWishlistButton);
-                     // {% endif %}
-
-                     // Create the "View" button
-                     var viewButton = document.createElement("a");
-                     viewButton.href = "{% url 'view' " + result.product_id + " %}";
-                     viewButton.className = "btn btn-primary";
-                     viewButton.textContent = "View";
-
-                     productContainer.appendChild(viewButton);
-
-                     // Assemble the elements and append them to the DOM
-                     viewLink.appendChild(productContainer);
-                     productDiv.appendChild(viewLink);
-
-                     // Add the productDiv to the document
-                     resultsContainer.append(productDiv);
-
-                     resultsContainer.append(resultHtml);
-               }
+                  var result = parsedResults[i].fields;  // Access the 'fields' property
+              
+                  var productHtml = '<div class="col-md-6 col-lg-4 col-xl-3">';
+                  productHtml += '<div class="single-product" id="product-' + i + '">';
+                  productHtml += '<div class="part-1">';
+                  productHtml += '<ul>';
+                  productHtml += '<img style="height: 250px;" src="{{ MEDIA_URL }}/' + result.product_image + '" class="card-img-top" alt="...">';
+                  productHtml += '<h5 class="card-title">' + result.quantity + ' available</h5>';
+                  productHtml += '<h3 class="product-title">' + result.product_name + '</h3>';
+                  productHtml += '<h4 class="product-title">Rs.' + result.price + '</h4>';
+                  productHtml += '</ul>';
+                  productHtml += '</div>'; // Close part-1
+                  productHtml += '<a href="{% url "addToCart" 0 %}'.replace('0', result.product_id) + '" class="btn btn-primary">Add To Cart</a>';
+                  productHtml += '<a href="{% url "add_to_wishlist" ' + result.product_id + ' %}" class="btn btn-primary"><i class="fas fa-heart"></i></a>';
+                  productHtml += '<a href="{% url "view" ' + result.product_id + ' %}" class="btn btn-primary">View</a>';
+                  productHtml += '</div>'; // Close single-product
+                  productHtml += '</div>'; // Close col
+              
+                  resultsContainer.append(productHtml);
+                  console.log(productHtml)
+              }
+              
+               
             }
          }
 

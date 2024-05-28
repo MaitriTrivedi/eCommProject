@@ -1,4 +1,5 @@
 {% load custom_tags %}
+{% load custom_tags2 %}
 <div class="header_section">
     <div class="container-fluid">
         <div class="header-1">
@@ -62,6 +63,10 @@
                   <a href="{% url 'logout' %}" style="color:black;">Logout</a>
                   <!-- Make a file upload and folder creation upto 4 level heirarchy -->
                   <a href="{% url 'folder' %}" style="color:black;">Folders</a>
+                  {% is_seller as seller%}
+                  {% if seller %}
+                  <a href="{% url 'adminpage' %}" style="color:black;">Seller Dashboard</a>
+                  {% endif %}
                 </div>
               </div>
             </li>

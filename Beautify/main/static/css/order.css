@@ -16,7 +16,7 @@
     /* Global "table" column settings */
     .product-image { float: left; width: 20%; }
     .product-details { float: left; width: 37%; }
-    .product-price { float: left; width: 12%; }
+    .product-price { float: left; width: 100%; }
     .product-quantity { float: left; width: 10%; }
     .product-removal { float: left; width: 9%; }
     .product-line-price { float: left; width: 12%; text-align: right; }
