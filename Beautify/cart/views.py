@@ -66,15 +66,21 @@ def update_cart(request):
         if action == "+":
             cart_item.quantity += 1
             cart_item.total_price=cart_item.quantity * cart_item.products.price
+            product.quantity -= 1
+            product.save()
             cart_item.save()
             data["quantity"]=cart_item.quantity
             data["subtotal"]=cart_item.quantity * cart_item.products.price
         elif action == "remove":
+            product.quantity -= cart_item.quantity
+            product.save()
             cart_item.delete()
             data["quantity"]=0
             data["subtotal"]=0
         elif action == "-":
             cart_item.quantity -= 1
+            product.quantity += 1
+            product.save()
             if cart_item.quantity == 0:
                 cart_item.delete()
                 data["quantity"]=0
