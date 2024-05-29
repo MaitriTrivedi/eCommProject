@@ -62,7 +62,17 @@
     .link-item{
       color:black;
   }
-  
+
+  button.dropbtn_2 {
+    background-color: #eccfd5;
+    color: white;
+     padding: 0px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50%; /* This makes the button round */
+    width: 40px; /* Adjust the width */
+    height: 40px; /* Adjust the height */
+    }
 /* Dropdown Button */
 .dropbtn {
 background-color: #eccfd5;

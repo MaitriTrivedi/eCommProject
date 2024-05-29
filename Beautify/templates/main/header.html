@@ -43,17 +43,20 @@
         <div class="header-3">
           {% if request.user.is_authenticated %}    
             <li>Hi {{ request.user }}!</li>
+            <div class="dropbtn-2">
             <li>
               <a href="{% url 'cart' %}" class="cart-link">
                 <img class="cart-image" src="/static/images/bag-icon.png">
                 <span class="cart-count"> {% cart_count %}</span>
               </a>
             </li>
-            
+          </div>
+          <div class="dropbtn-2">
             <li class="link-item" id='a'>
-              <a href="{% url 'wishlist' %}" style="color:black;"><i class="fas fa-heart"></i></a>
+              <a  href="{% url 'wishlist' %}" style="color:black;"><i class="fas fa-heart"></i></a>
             </li> 
-
+          </div>
+          <div class="dropbtn-2">
             <li>
               <div class="dropdown">
                 <button class="dropbtn"><img src="/static/images/user-icon.png"></button>
@@ -70,6 +73,7 @@
                 </div>
               </div>
             </li>
+          </div>
           {% else %}
             <li> 
               <div class="login_text">
