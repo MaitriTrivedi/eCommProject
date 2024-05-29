@@ -488,3 +488,29 @@ align-items: center;
   padding: 20px 20px;
   margin: 20px 20px;;
 }
+
+.search-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.search-input {
+  width: 300px;
+  padding: 3px 40px 3px 10px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+.search-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.search-button .fa-search {
+  font-size: 16px;
+  color: #888;
+}
